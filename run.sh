@@ -107,6 +107,7 @@ prepare_docker_shared_memory_host_sharing
 docker run --rm -it \
   --name "ubuntu-tini-desktop" \
   ${SECURITY} \
+  ${CAPABILITIES} \
   ${ENV_VARS} \
   ${DEVICES} \
   ${MOUNTS} \
