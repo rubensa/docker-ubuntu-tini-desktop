@@ -100,6 +100,33 @@ prepare_docker_in_docker() {
   RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
 }
 
+prepare_docker_userdata_volumes() {
+  # User media folders
+  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents"
+  MOUNTS+=" --mount type=bind,source=$HOME/Downloads,target=/home/$USER_NAME/Downloads"
+  MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
+  MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
+  MOUNTS+=" --mount type=bind,source=$HOME/Videos,target=/home/$USER_NAME/Videos"
+  # User ssh keys
+  [ -d $HOME/.ssh ] || mkdir -p $HOME/.ssh
+  MOUNTS+=" --mount type=bind,source=$HOME/.ssh,target=/home/$USER_NAME/.ssh"
+  # Thunderbird config
+  [ -d $HOME/.thunderbird ] || mkdir -p $HOME/.thunderbird
+  MOUNTS+=" --mount type=bind,source=$HOME/.thunderbird,target=/home/$USER_NAME/.thunderbird"
+  # Chrome config
+  [ -d $HOME/.config/google-chrome ] || mkdir -p $HOME/.config/google-chrome
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/google-chrome,target=/home/$USER_NAME/.config/google-chrome"
+  # Filezilla config
+  [ -d $HOME/.config/filezilla ] || mkdir -p $HOME/.config/filezilla
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/filezilla,target=/home/$USER_NAME/.config/filezilla"
+  # VLC config
+  [ -d $HOME/.config/vlc ] || mkdir -p $HOME/.config/vlc
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/vlc,target=/home/$USER_NAME/.config/vlc"
+  # Remmina config
+  [ -d $HOME/.config/remmina ] || mkdir -p $HOME/.config/remmina
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/remmina,target=/home/$USER_NAME/.config/remmina"
+}
+
 prepare_docker_timezone
 prepare_docker_user_and_group
 prepare_docker_dbus_host_sharing
@@ -113,6 +140,7 @@ prepare_docker_hostname_host_sharing
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_host_sharing
 prepare_docker_in_docker
+prepare_docker_userdata_volumes
 
 docker run --rm -it \
   --name "ubuntu-tini-desktop" \
