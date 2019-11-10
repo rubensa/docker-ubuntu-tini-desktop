@@ -4,6 +4,8 @@
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
+# Built in user name
+USER_NAME=user
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/
@@ -91,6 +93,13 @@ prepare_docker_shared_memory_host_sharing() {
   MOUNTS+=" --mount type=bind,source=/dev/shm,target=/dev/shm"
 }
 
+prepare_docker_in_docker() {
+  # Docker
+  MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  MOUNTS+=" --mount type=bind,source=`which docker`,target=/home/$USER_NAME/.local/bin/docker"
+  RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
+}
+
 prepare_docker_timezone
 prepare_docker_user_and_group
 prepare_docker_dbus_host_sharing
@@ -103,6 +112,7 @@ prepare_docker_x11_host_sharing
 prepare_docker_hostname_host_sharing
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_host_sharing
+prepare_docker_in_docker
 
 docker run --rm -it \
   --name "ubuntu-tini-desktop" \
@@ -113,4 +123,5 @@ docker run --rm -it \
   ${MOUNTS} \
   ${EXTRA} \
   ${RUNNER} \
+  ${RUNNER_GROUPS} \
   rubensa/ubuntu-tini-desktop

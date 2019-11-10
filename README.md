@@ -26,6 +26,8 @@ You can run the container like this (change --rm with -d if you don't want the c
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
+# Built in user name
+USER_NAME=user
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/
@@ -113,6 +115,13 @@ prepare_docker_shared_memory_host_sharing() {
   MOUNTS+=" --mount type=bind,source=/dev/shm,target=/dev/shm"
 }
 
+prepare_docker_in_docker() {
+  # Docker
+  MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  MOUNTS+=" --mount type=bind,source=`which docker`,target=/home/$USER_NAME/.local/bin/docker"
+  RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
+}
+
 prepare_docker_timezone
 prepare_docker_user_and_group
 prepare_docker_dbus_host_sharing
@@ -125,6 +134,7 @@ prepare_docker_x11_host_sharing
 prepare_docker_hostname_host_sharing
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_host_sharing
+prepare_docker_in_docker
 
 docker run --rm -it \
   --name "ubuntu-tini-desktop" \
@@ -135,6 +145,7 @@ docker run --rm -it \
   ${MOUNTS} \
   ${EXTRA} \
   ${RUNNER} \
+  ${RUNNER_GROUPS} \
   rubensa/ubuntu-tini-desktop
 ```
 
@@ -143,6 +154,8 @@ docker run --rm -it \
 This way, the internal user UID an group GID are changed to the current host user:group launching the container and the existing files under his internal HOME directory that where owned by user and group are also updated to belong to the new UID:GID.
 
 Functions prepare_docker_dbus_host_sharing, prepare_docker_xdg_runtime_dir_host_sharing, prepare_docker_sound_host_sharing, prepare_docker_webcam_host_sharing, prepare_docker_gpu_host_sharing, prepare_docker_printer_host_sharing, prepare_docker_x11_host_sharing, prepare_docker_hostname_host_sharing, prepare_docker_fuse_sharing and prepare_docker_shared_memory_host_sharing allows sharing your host resources with the running container as GUI apps can interact with your host system as they where installed in the host.
+
+Function prepare_docker_in_docker allows use docker host daemon inside container (Docker in Docker).
 
 ## Connect
 
