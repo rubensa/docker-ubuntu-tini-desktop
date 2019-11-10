@@ -6,7 +6,7 @@ Name=Remmina
 GenericName=Remote Desktop Client
 X-GNOME-FullName=Remmina Remote Desktop Client
 Comment=Connect to remote desktops
-Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina-file-wrapper %U"
+Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina %U"
 Icon=remmina
 Terminal=false
 Type=Application
@@ -18,18 +18,18 @@ Actions=Kiosk;Profile;Tray;Quit;
 
 [Desktop Action Profile]
 Name=Create a New Connection Profile
-Exec=remmina --new
+Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --new#
 
 [Desktop Action Kiosk]
 # Start Remmina with a minimal interface for kiosk/thin client mode
 Name=Start Remmina in Kiosk mode
-Exec=remmina --kiosk
+Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --kiosk"
 
 [Desktop Action Tray]
 Name=Start Remmina Minimized
-Exec=remmina --icon
+Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --icon"
 
 [Desktop Action Quit]
 Name=Quit
-Exec=remmina --quit
+Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --quit"
 OnlyShowIn=Unity;
