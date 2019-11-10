@@ -1,0 +1,35 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Name=Remmina
+GenericName=Remote Desktop Client
+X-GNOME-FullName=Remmina Remote Desktop Client
+Comment=Connect to remote desktops
+Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina-file-wrapper %U"
+Icon=remmina
+Terminal=false
+Type=Application
+Categories=GTK;GNOME;X-GNOME-NetworkSettings;Network;
+Keywords=remote desktop;rdp;vnc;nx;ssh;spice;xdmcp;
+StartupWMClass=remmina
+MimeType=x-scheme-handler/rdp;x-scheme-handler/spice;x-scheme-handler/vnc;x-scheme-handler/remmina;application/x-remmina;
+Actions=Kiosk;Profile;Tray;Quit;
+
+[Desktop Action Profile]
+Name=Create a New Connection Profile
+Exec=remmina --new
+
+[Desktop Action Kiosk]
+# Start Remmina with a minimal interface for kiosk/thin client mode
+Name=Start Remmina in Kiosk mode
+Exec=remmina --kiosk
+
+[Desktop Action Tray]
+Name=Start Remmina Minimized
+Exec=remmina --icon
+
+[Desktop Action Quit]
+Name=Quit
+Exec=remmina --quit
+OnlyShowIn=Unity;

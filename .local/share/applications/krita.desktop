@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Encoding=UTF-8
+Name=Krita
+Exec=docker exec ubuntu-tini-desktop bash -l -c "krita %U"
+GenericName=Painting and Image Editing
+MimeType=application/x-krita
+Type=Application
+Icon=krita
+Categories=Qt;KDE;Office;Graphics;
+X-KDE-NativeMimeType=application/x-krita
+X-KDE-StartupNotify=true
+X-DCOP-ServiceType=Multi
+X-Krita-Version=2

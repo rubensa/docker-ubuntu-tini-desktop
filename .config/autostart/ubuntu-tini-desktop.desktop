@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=docker start ubuntu-tini-desktop
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=ubuntu-tini-desktop
+Name=ubuntu-tini-desktop
+Comment[en_US]=
+Comment=

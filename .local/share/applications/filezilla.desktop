@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=FileZilla
+GenericName=FTP client
+Comment=Download and upload files via FTP, FTPS and SFTP
+Exec=docker exec ubuntu-tini-desktop bash -l -c "filezilla"
+Terminal=false
+Icon=filezilla
+Type=Application
+Categories=Network;FileTransfer;
+Version=1.0
