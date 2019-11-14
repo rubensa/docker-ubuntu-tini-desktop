@@ -15,6 +15,10 @@ ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/$
 #ARG INKSCAPE_VERSION=Inkscape-0.92.3%2B68.glibc2.15-x86_64
 #ADD https://bintray.com/probono/AppImages/download_file?file_path=${INKSCAPE_VERSION}.AppImage /usr/local/bin/inkscape
 
+# suppress GTK warnings about accessibility
+# (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
+ENV NO_AT_BRIDGE 1
+
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 

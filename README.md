@@ -82,6 +82,15 @@ prepare_docker_webcam_host_sharing() {
 prepare_docker_gpu_host_sharing() {
   # GPU support (Direct Rendering Manager)
   [ -d /dev/dri ] && DEVICES+=" --device /dev/dri"
+  # VGA Arbiter
+  [ -c /dev/vga_arbiter ] && DEVICES+=" --device /dev/vga_arbiter"
+  # Allow nvidia devices access
+  for device in /dev/nvidia*
+  do
+    if [[ -c $device ]]; then
+      DEVICES+=" --device $device"
+    fi
+  done
 }
 
 prepare_docker_printer_host_sharing() {
@@ -187,25 +196,6 @@ Functions prepare_docker_dbus_host_sharing, prepare_docker_xdg_runtime_dir_host_
 Function prepare_docker_in_docker allows use docker host daemon inside container (Docker in Docker).
 
 Function prepare_docker_userdata_volumes allows keep application config in user host HOME directory.
-
-## Setup GPU
-
-To make an Nvidia GPU available in the docker container, the following steps have to be taken:
-
-On the host, check your driver version:
-
-    # you might have to install this package:
-    $ sudo apt-get install mesa-utils
-    $ glxinfo |grep "OpenGL version"
-    OpenGL version string: 4.6.0 NVIDIA 390.129
-
-In this example, the driver version is "390.129". Now, you have install exactly the same driver in the container:
-
-    export VERSION=390.129
-    wget http://us.download.nvidia.com/XFree86/Linux-x86_64/$VERSION/NVIDIA-Linux-x86_64-$VERSION.run
-    chmod +x NVIDIA-Linux-x86_64-$VERSION.run
-    apt-get install -y module-init-tools
-    ./NVIDIA-Linux-x86_64-$VERSION.run -a -N --ui=none --no-kernel-module
 
 ## Connect
 
