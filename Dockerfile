@@ -58,8 +58,8 @@ RUN apt-get update \
     && apt-get -y install thunderbird google-chrome-stable vlc inkscape krita libreoffice deluge filezilla remmina calibre \
     #
     # Make Appimages executable
-    && chmod +x /usr/local/bin/gimp \
-    #&& chmod +x /usr/local/bin/inkscape \
+    && chmod +rx /usr/local/bin/gimp \
+    #&& chmod +rx /usr/local/bin/inkscape \
     #
     # Clean up
     && apt-get autoremove -y \
