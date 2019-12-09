@@ -104,9 +104,18 @@ prepare_docker_shared_memory_size() {
 
 prepare_docker_in_docker() {
   # Docker
-  MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
-  MOUNTS+=" --mount type=bind,source=`which docker`,target=/home/$USER_NAME/.local/bin/docker"
-  RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
+  if [ -S /var/run/docker.sock ]; then
+    MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  fi
+  if [ -f "`command -v docker`" ]; then
+    MOUNTS+=" --mount type=bind,source=`command -v docker`,target=/home/$USER_NAME/.local/bin/docker"
+  fi
+  if [ -f "`command -v docker-compose`" ]; then
+    MOUNTS+=" --mount type=bind,source=`command -v docker-compose`,target=/home/$USER_NAME/.local/bin/docker-compose"
+  fi
+  if [ ! -z "`getent group docker`" ]; then
+    RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
+  fi
 }
 
 prepare_docker_userdata_volumes() {
