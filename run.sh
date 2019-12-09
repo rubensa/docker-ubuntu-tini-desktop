@@ -4,8 +4,8 @@
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
-# Built in user name
-USER_NAME=user
+# Current user name
+USER_NAME=$(id -un)
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/

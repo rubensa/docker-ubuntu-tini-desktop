@@ -1,6 +1,6 @@
-# Docker image with some GUI apps
+# Docker image with some GUI apps and custom user and group names
 
-This is a Docker image based on [rubensa/ubuntu-tini-x11](https://github.com/rubensa/docker-ubuntu-tini-x11) and includes some GUI applications.
+This is a Docker image based on [rubensa/ubuntu-tini-desktop](rubensa/ubuntu-tini-wine](https://github.com/rubensa/docker-ubuntu-tini-wine) and includes some GUI applications and custom user and group names.
 
 ## Building
 
@@ -9,11 +9,29 @@ You can build the image like this:
 ```
 #!/usr/bin/env bash
 
+# Get current user name
+NEW_USER_NAME=$(id -un)
+# Get current user main group name
+NEW_GROUP_NAME=$(id -gn)
+
+prepare_docker_user_and_group() {
+  # On build, if you specify NEW_USER_NAME or NEW_GROUP_NAME those are used to define the
+  # internal user and group created instead of default ones (user and group)
+  BUILD_ARGS+=" --build-arg NEW_USER_NAME=$NEW_USER_NAME"
+  BUILD_ARGS+=" --build-arg NEW_GROUP_NAME=$NEW_GROUP_NAME"
+}
+
+prepare_docker_user_and_group
+
 docker build --no-cache \
   -t "rubensa/custom-ubuntu-tini-desktop" \
   --label "maintainer=Ruben Suarez <rubensa@gmail.com>" \
+  ${BUILD_ARGS} \
   .
 ```
+
+This way, the internal user an group names are changed to the current host user:group building the image.
+
 
 ## Running
 
@@ -26,8 +44,8 @@ You can run the container like this (change --rm with -d if you don't want the c
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
-# Built in user name
-USER_NAME=user
+# Current user name
+USER_NAME=$(id -un)
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/
