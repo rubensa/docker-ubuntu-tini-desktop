@@ -97,9 +97,9 @@ prepare_docker_fuse_sharing() {
   [ -c /dev/fuse ] && DEVICES+=" --device /dev/fuse"
 }
 
-prepare_docker_shared_memory_host_sharing() {
+prepare_docker_shared_memory_size() {
   # https://github.com/SeleniumHQ/docker-selenium/issues/388
-  MOUNTS+=" --mount type=bind,source=/dev/shm,target=/dev/shm"
+  EXTRA+=" --shm-size=2g"
 }
 
 prepare_docker_in_docker() {
@@ -147,7 +147,7 @@ prepare_docker_printer_host_sharing
 prepare_docker_x11_host_sharing
 prepare_docker_hostname_host_sharing
 prepare_docker_fuse_sharing
-prepare_docker_shared_memory_host_sharing
+prepare_docker_shared_memory_size
 prepare_docker_in_docker
 prepare_docker_userdata_volumes
 
