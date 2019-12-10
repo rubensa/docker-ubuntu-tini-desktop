@@ -128,6 +128,9 @@ prepare_docker_userdata_volumes() {
   # User ssh keys
   [ -d $HOME/.ssh ] || mkdir -p $HOME/.ssh
   MOUNTS+=" --mount type=bind,source=$HOME/.ssh,target=/home/$USER_NAME/.ssh"
+  # Git config
+  [ -f $HOME/.gitconfig ] || touch $HOME/.gitconfig
+  MOUNTS+=" --mount type=bind,source=$HOME/.gitconfig,target=/home/$USER_NAME/.gitconfig"
   # Thunderbird config
   [ -d $HOME/.thunderbird ] || mkdir -p $HOME/.thunderbird
   MOUNTS+=" --mount type=bind,source=$HOME/.thunderbird,target=/home/$USER_NAME/.thunderbird"
