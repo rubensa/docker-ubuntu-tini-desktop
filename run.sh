@@ -143,6 +143,9 @@ prepare_docker_userdata_volumes() {
   # Remmina config
   [ -d $HOME/.config/remmina ] || mkdir -p $HOME/.config/remmina
   MOUNTS+=" --mount type=bind,source=$HOME/.config/remmina,target=/home/$USER_NAME/.config/remmina"
+  # VSCode config
+  [ -d $HOME/.vscode ] || mkdir -p $HOME/.vscode
+  MOUNTS+=" --mount type=bind,source=$HOME/.vscode,target=/home/$USER_NAME/.vscode"
 }
 
 prepare_docker_timezone

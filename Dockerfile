@@ -8,12 +8,15 @@ USER root
 ENV HOME=/root
 
 # Add GIMP Appimage
-ARG GIMP_VERSION=GIMP_AppImage-release-2.10.8-withplugins-x86_64
-ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/${GIMP_VERSION}.AppImage /usr/local/bin/gimp
+ARG GIMP_VERSION=release-2.10.14
+ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
-# Add InskScape Appimage
-#ARG INKSCAPE_VERSION=Inkscape-0.92.3%2B68.glibc2.15-x86_64
-#ADD https://bintray.com/probono/AppImages/download_file?file_path=${INKSCAPE_VERSION}.AppImage /usr/local/bin/inkscape
+# Add draw.io Appimage
+ARG DRAWIO_VERSION=12.3.2
+ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
+
+# Set VSCode version
+ARG VSCODE_VERSION=1.40.2
 
 # suppress GTK warnings about accessibility
 # (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
@@ -23,7 +26,7 @@ ENV NO_AT_BRIDGE 1
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Configure apt and install packages
-RUN apt-get update \
+RUN apt-get update && apt-get -y upgrade \
     # 
     # Install software and needed libraries
     && apt-get -y install --no-install-recommends curl software-properties-common gnupg fuse  qtwayland5 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 2>&1 \
@@ -32,18 +35,15 @@ RUN apt-get update \
     #
     # Chrome repo
     && printf "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && curl -O https://dl.google.com/linux/linux_signing_key.pub \
+    && curl -L -O https://dl.google.com/linux/linux_signing_key.pub \
     && apt-key add linux_signing_key.pub \
     && rm linux_signing_key.pub \
     #
     # Thunderbird repo
-    && sudo add-apt-repository -y ppa:mozillateam/ppa \
+    && add-apt-repository -y ppa:mozillateam/ppa \
     #
     # VideoLAN repo
     && add-apt-repository -y ppa:videolan/master-daily \
-    #
-    # Inkscape repo
-    && add-apt-repository -y ppa:inkscape.dev/stable \
     #
     # Krita repo
     && add-apt-repository -y ppa:kritalime/ppa \
@@ -55,11 +55,36 @@ RUN apt-get update \
     && add-apt-repository -y ppa:deluge-team/stable \
     #
     # Install software
-    && apt-get -y install thunderbird google-chrome-stable vlc inkscape krita libreoffice deluge filezilla remmina calibre \
+    && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre \
+    #
+    # Install VSCode
+    && curl -L -o code-stable-${VSCODE_VERSION}.tar.gz https://update.code.visualstudio.com/${VSCODE_VERSION}/linux-x64/stable \
+    && tar -xf code-stable-${VSCODE_VERSION}.tar.gz -C /opt \
+    && rm code-stable-${VSCODE_VERSION}.tar.gz \
+    #
+    # Assign group folder ownership
+    && chgrp -R ${GROUP_NAME} /opt/VSCode-linux-x64  \
+    #
+    # Set the segid bit to the folder
+    && chmod -R g+s /opt/VSCode-linux-x64  \
+    #
+    # Give write and exec acces so anyobody can use it
+    && chmod -R ga+wX /opt/VSCode-linux-x64  \
+    #
+    # Link to standard binary PATH
+    && ln -s /opt/VSCode-linux-x64/code /usr/local/bin/code \
+    #
+    # Inkscape Appimage
+    && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/artifacts/master/download?job=appimage%3Alinux \
+    && unzip Inkscape.zip \
+    && find . -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \; \
+    && rm Inkscape* \
     #
     # Make Appimages executable
     && chmod +rx /usr/local/bin/gimp \
-    #&& chmod +rx /usr/local/bin/inkscape \
+    && chmod +rx /usr/local/bin/draw.io \
+    && chmod +rx /usr/local/bin/code \
+    && chmod +rx /usr/local/bin/inkscape \
     #
     # Clean up
     && apt-get autoremove -y \
