@@ -29,7 +29,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y upgrade \
     # 
     # Install software and needed libraries
-    && apt-get -y install --no-install-recommends curl software-properties-common gnupg fuse  qtwayland5 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 2>&1 \
+    && apt-get -y install --no-install-recommends curl software-properties-common gnupg fuse qtwayland5 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 2>&1 \
     #
     # Add Repos
     #
@@ -63,19 +63,19 @@ RUN apt-get update && apt-get -y upgrade \
     && rm code-stable-${VSCODE_VERSION}.tar.gz \
     #
     # Assign group folder ownership
-    && chgrp -R ${GROUP_NAME} /opt/VSCode-linux-x64  \
+    && chgrp -R ${GROUP_NAME} /opt/VSCode-linux-x64 \
     #
     # Set the segid bit to the folder
-    && chmod -R g+s /opt/VSCode-linux-x64  \
+    && chmod -R g+s /opt/VSCode-linux-x64 \
     #
     # Give write and exec acces so anyobody can use it
-    && chmod -R ga+wX /opt/VSCode-linux-x64  \
+    && chmod -R ga+wX /opt/VSCode-linux-x64 \
     #
     # Link to standard binary PATH
     && ln -s /opt/VSCode-linux-x64/code /usr/local/bin/code \
     #
-    # Inkscape Appimage
-    && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/artifacts/master/download?job=appimage%3Alinux \
+    # Inkscape Appimage (INKSCAPE_1_0_BETA2)
+    && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/368309106/artifacts/download \
     && unzip Inkscape.zip \
     && find . -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \; \
     && rm Inkscape* \
