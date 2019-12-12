@@ -157,12 +157,18 @@ prepare_docker_userdata_volumes() {
   MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
   MOUNTS+=" --mount type=bind,source=$HOME/Videos,target=/home/$USER_NAME/Videos"
-  # User ssh keys
+  # ssh config
   [ -d $HOME/.ssh ] || mkdir -p $HOME/.ssh
   MOUNTS+=" --mount type=bind,source=$HOME/.ssh,target=/home/$USER_NAME/.ssh"
+  # Maven config
+  [ -d $HOME/.m2 ] || mkdir -p $HOME/.m2
+  MOUNTS+=" --mount type=bind,source=$HOME/.m2,target=/home/$USER_NAME/.m2"
   # Git config
   [ -f $HOME/.gitconfig ] || touch $HOME/.gitconfig
   MOUNTS+=" --mount type=bind,source=$HOME/.gitconfig,target=/home/$USER_NAME/.gitconfig"
+  # VSCode config
+  [ -d $HOME/.config/Code ] || mkdir -p $HOME/.config/Code
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/Code,target=/home/$USER_NAME/.config/Code"
   # Thunderbird config
   [ -d $HOME/.thunderbird ] || mkdir -p $HOME/.thunderbird
   MOUNTS+=" --mount type=bind,source=$HOME/.thunderbird,target=/home/$USER_NAME/.thunderbird"
@@ -178,9 +184,15 @@ prepare_docker_userdata_volumes() {
   # Remmina config
   [ -d $HOME/.config/remmina ] || mkdir -p $HOME/.config/remmina
   MOUNTS+=" --mount type=bind,source=$HOME/.config/remmina,target=/home/$USER_NAME/.config/remmina"
-  # VSCode config
-  [ -d $HOME/.config/Code ] || mkdir -p $HOME/.config/Code
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/Code,target=/home/$USER_NAME/.config/Code"
+  # Calibre library
+  [ -d $HOME/.config/calibre ] || mkdir -p $HOME/.config/calibre
+  [ -f "$HOME/Calibre Library" ] || mkdir -p "$HOME/Calibre Library"
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/calibre,target=/home/$USER_NAME/.config/calibre"
+  MOUNTS+=" --mount type=bind,source=$HOME/Calibre\ Library,target=/home/$USER_NAME/Calibre\ Library"
+  # Shared working directory
+  if [ -d /work ]; then
+    MOUNTS+=" --mount type=bind,source=/work,target=/work"
+  fi
 }
 
 prepare_docker_timezone
@@ -199,8 +211,8 @@ prepare_docker_shared_memory_size
 prepare_docker_in_docker
 prepare_docker_userdata_volumes
 
-docker run --rm -it \
-  --name "ubuntu-tini-desktop" \
+bash -c "docker run --rm -it \
+  --name ubuntu-tini-desktop \
   ${SECURITY} \
   ${CAPABILITIES} \
   ${ENV_VARS} \
@@ -209,7 +221,7 @@ docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  rubensa/ubuntu-tini-desktop
+  rubensa/ubuntu-tini-desktop"
 ```
 
 *NOTE*: Mounting /etc/timezone and /etc/localtime allows you to use your host timezone on container.
