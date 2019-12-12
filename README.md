@@ -112,6 +112,16 @@ prepare_docker_hostname_host_sharing() {
   EXTRA+="  --hostname `hostname`"
 }
 
+prepare_docker_nvidia_drivers_install() {
+  # NVidia propietary drivers are needed on host for this to work
+  if [ `command -v nvidia-smi` ]; then 
+    NVIDIA_VERSION=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader)
+
+    # On run, if you specify NVIDIA_VERSION the nvidia specified drivers version are installed
+    ENV_VARS+=" --env=NVIDIA_VERSION=${NVIDIA_VERSION}"
+  fi
+}
+
 prepare_docker_fuse_sharing() {
   # Fuse is needed by AppImage
   # The kernel requires SYS_ADMIN
@@ -119,16 +129,25 @@ prepare_docker_fuse_sharing() {
   [ -c /dev/fuse ] && DEVICES+=" --device /dev/fuse"
 }
 
-prepare_docker_shared_memory_host_sharing() {
+prepare_docker_shared_memory_size() {
   # https://github.com/SeleniumHQ/docker-selenium/issues/388
-  MOUNTS+=" --mount type=bind,source=/dev/shm,target=/dev/shm"
+  EXTRA+=" --shm-size=2g"
 }
 
 prepare_docker_in_docker() {
   # Docker
-  MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
-  MOUNTS+=" --mount type=bind,source=`which docker`,target=/home/$USER_NAME/.local/bin/docker"
-  RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
+  if [ -S /var/run/docker.sock ]; then
+    MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  fi
+  if [ -f "`command -v docker`" ]; then
+    MOUNTS+=" --mount type=bind,source=`command -v docker`,target=/home/$USER_NAME/.local/bin/docker"
+  fi
+  if [ -f "`command -v docker-compose`" ]; then
+    MOUNTS+=" --mount type=bind,source=`command -v docker-compose`,target=/home/$USER_NAME/.local/bin/docker-compose"
+  fi
+  if [ ! -z "`getent group docker`" ]; then
+    RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
+  fi
 }
 
 prepare_docker_userdata_volumes() {
@@ -141,6 +160,9 @@ prepare_docker_userdata_volumes() {
   # User ssh keys
   [ -d $HOME/.ssh ] || mkdir -p $HOME/.ssh
   MOUNTS+=" --mount type=bind,source=$HOME/.ssh,target=/home/$USER_NAME/.ssh"
+  # Git config
+  [ -f $HOME/.gitconfig ] || touch $HOME/.gitconfig
+  MOUNTS+=" --mount type=bind,source=$HOME/.gitconfig,target=/home/$USER_NAME/.gitconfig"
   # Thunderbird config
   [ -d $HOME/.thunderbird ] || mkdir -p $HOME/.thunderbird
   MOUNTS+=" --mount type=bind,source=$HOME/.thunderbird,target=/home/$USER_NAME/.thunderbird"
@@ -156,6 +178,9 @@ prepare_docker_userdata_volumes() {
   # Remmina config
   [ -d $HOME/.config/remmina ] || mkdir -p $HOME/.config/remmina
   MOUNTS+=" --mount type=bind,source=$HOME/.config/remmina,target=/home/$USER_NAME/.config/remmina"
+  # VSCode config
+  [ -d $HOME/.config/Code ] || mkdir -p $HOME/.config/Code
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/Code,target=/home/$USER_NAME/.config/Code"
 }
 
 prepare_docker_timezone
@@ -168,8 +193,9 @@ prepare_docker_gpu_host_sharing
 prepare_docker_printer_host_sharing
 prepare_docker_x11_host_sharing
 prepare_docker_hostname_host_sharing
+prepare_docker_nvidia_drivers_install
 prepare_docker_fuse_sharing
-prepare_docker_shared_memory_host_sharing
+prepare_docker_shared_memory_size
 prepare_docker_in_docker
 prepare_docker_userdata_volumes
 
@@ -190,7 +216,9 @@ docker run --rm -it \
 
 This way, the internal user UID an group GID are changed to the current host user:group launching the container and the existing files under his internal HOME directory that where owned by user and group are also updated to belong to the new UID:GID.
 
-Functions prepare_docker_dbus_host_sharing, prepare_docker_xdg_runtime_dir_host_sharing, prepare_docker_sound_host_sharing, prepare_docker_webcam_host_sharing, prepare_docker_gpu_host_sharing, prepare_docker_printer_host_sharing, prepare_docker_x11_host_sharing, prepare_docker_hostname_host_sharing, prepare_docker_fuse_sharing and prepare_docker_shared_memory_host_sharing allows sharing your host resources with the running container as GUI apps can interact with your host system as they where installed in the host.
+Functions prepare_docker_dbus_host_sharing, prepare_docker_xdg_runtime_dir_host_sharing, prepare_docker_sound_host_sharing, prepare_docker_webcam_host_sharing, prepare_docker_gpu_host_sharing, prepare_docker_printer_host_sharing, prepare_docker_x11_host_sharing, prepare_docker_hostname_host_sharing, prepare_docker_fuse_sharing and prepare_docker_shared_memory_size allows sharing your host resources with the running container as GUI apps can interact with your host system as they where installed in the host.
+
+Function prepare_docker_nvidia_drivers_install allows the nvidia drivers host version to be installed on container.
 
 Function prepare_docker_in_docker allows use docker host daemon inside container (Docker in Docker).
 

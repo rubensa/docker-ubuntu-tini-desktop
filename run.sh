@@ -90,6 +90,16 @@ prepare_docker_hostname_host_sharing() {
   EXTRA+="  --hostname `hostname`"
 }
 
+prepare_docker_nvidia_drivers_install() {
+  # NVidia propietary drivers are needed on host for this to work
+  if [ `command -v nvidia-smi` ]; then 
+    NVIDIA_VERSION=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader)
+
+    # On run, if you specify NVIDIA_VERSION the nvidia specified drivers version are installed
+    ENV_VARS+=" --env=NVIDIA_VERSION=${NVIDIA_VERSION}"
+  fi
+}
+
 prepare_docker_fuse_sharing() {
   # Fuse is needed by AppImage
   # The kernel requires SYS_ADMIN
@@ -161,6 +171,7 @@ prepare_docker_gpu_host_sharing
 prepare_docker_printer_host_sharing
 prepare_docker_x11_host_sharing
 prepare_docker_hostname_host_sharing
+prepare_docker_nvidia_drivers_install
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_size
 prepare_docker_in_docker
