@@ -15,6 +15,9 @@ ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/G
 ARG DRAWIO_VERSION=12.3.2
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
+# Set Microsoft Teams version
+ARG TEAMS_VERSION=1.2.00.32451
+
 # Set VSCode version
 ARG VSCODE_VERSION=1.40.2
 
@@ -56,6 +59,11 @@ RUN apt-get update && apt-get -y upgrade \
     #
     # Install software
     && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre \
+    #
+    # Install Microsoft Teams
+    && curl -O https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/teams_${TEAMS_VERSION}_amd64.deb \
+    && dpkg -i teams_${TEAMS_VERSION}_amd64.deb \
+    && rm teams_${TEAMS_VERSION}_amd64.deb \
     #
     # Install VSCode
     && curl -L -o code-stable-${VSCODE_VERSION}.tar.gz https://update.code.visualstudio.com/${VSCODE_VERSION}/linux-x64/stable \
