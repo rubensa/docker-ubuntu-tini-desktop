@@ -19,7 +19,7 @@ ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION
 ARG TEAMS_VERSION=1.2.00.32451
 
 # Set VSCode version
-ARG VSCODE_VERSION=1.40.2
+ARG VSCODE_VERSION=1.41.0
 
 # suppress GTK warnings about accessibility
 # (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
