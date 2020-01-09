@@ -58,7 +58,7 @@ RUN apt-get update && apt-get -y upgrade \
     && add-apt-repository -y ppa:deluge-team/stable \
     #
     # Install software
-    && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre \
+    && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld \
     #
     # Install Microsoft Teams
     && curl -O https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/teams_${TEAMS_VERSION}_amd64.deb \

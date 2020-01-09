@@ -1,0 +1,35 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=Meld
+GenericName=Diff Viewer
+X-GNOME-FullName=Meld Diff Viewer
+Comment=Compare and merge your files
+# TRANSLATORS: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords=diff;merge;
+Keywords[cs]=rozdíl;odlišnosti;diff;porovnání;porovnávání;srovnání;srovnávání;slučování;sloučení;
+Keywords[da]=diff;flet;
+Keywords[de]=diff;merge;
+Keywords[es]=diff;mezcla;
+Keywords[fi]=diff;merge;yhdistäminen;
+Keywords[fr]=diff;fusion;
+Keywords[hu]=diff;merge;különbség;patch;folt;
+Keywords[id]=diff;merge;
+Keywords[it]=diff;merge;differenze;unione;
+Keywords[pl]=różnica;diff;merge;scalanie;łączenie;połącz;porównaj;łata;łatka;patch;
+Keywords[pt]=diff;diferenças;comparar;unir;
+Keywords[pt_BR]=comparar;diferença;diff;mesclar;mesclagem;merge;
+Keywords[sr]=разлике;стопи;
+Keywords[sr@latin]=razlike;stopi;
+Keywords[sv]=diff;merge;sammanfogning;
+Keywords[tr]=diff;fark;birleştir;merge;
+Exec=docker exec ubuntu-tini-desktop bash -l -c "/usr/bin/meld %F"
+Terminal=false
+Type=Application
+Icon=meld
+MimeType=application/x-meld-comparison;
+StartupNotify=true
+Categories=GTK;Development;
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=meld
+X-GNOME-Bugzilla-Component=general
