@@ -32,7 +32,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y upgrade \
     # 
     # Install software and needed libraries
-    && apt-get -y install --no-install-recommends curl software-properties-common gnupg fuse qtwayland5 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 libxcb-xinerama0 2>&1 \
+    && apt-get -y install --no-install-recommends software-properties-common gnupg fuse qtwayland5 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 libxcb-xinerama0 2>&1 \
     #
     # Add Repos
     #
