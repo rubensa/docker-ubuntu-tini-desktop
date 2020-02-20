@@ -12,14 +12,11 @@ ARG GIMP_VERSION=release-2.10.14
 ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage
-ARG DRAWIO_VERSION=12.3.2
+ARG DRAWIO_VERSION=12.6.5
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
-# Set Microsoft Teams version
-ARG TEAMS_VERSION=1.2.00.32451
-
 # Set VSCode version
-ARG VSCODE_VERSION=1.41.0
+ARG VSCODE_VERSION=1.42.1
 
 # suppress GTK warnings about accessibility
 # (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
@@ -38,9 +35,7 @@ RUN apt-get update && apt-get -y upgrade \
     #
     # Chrome repo
     && printf "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && curl -L -O https://dl.google.com/linux/linux_signing_key.pub \
-    && apt-key add linux_signing_key.pub \
-    && rm linux_signing_key.pub \
+    && curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
     #
     # Thunderbird repo
     && add-apt-repository -y ppa:mozillateam/ppa \
@@ -57,13 +52,12 @@ RUN apt-get update && apt-get -y upgrade \
     # Deluge repo
     && add-apt-repository -y ppa:deluge-team/stable \
     #
-    # Install software
-    && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld \
+    # Microsoft Teams repo
+    && printf "deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main" >> /etc/apt/sources.list.d/teams.list \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     #
-    # Install Microsoft Teams
-    && curl -O https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/teams_${TEAMS_VERSION}_amd64.deb \
-    && dpkg -i teams_${TEAMS_VERSION}_amd64.deb \
-    && rm teams_${TEAMS_VERSION}_amd64.deb \
+    # Install software
+    && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams \
     #
     # Install VSCode
     && curl -L -o code-stable-${VSCODE_VERSION}.tar.gz https://update.code.visualstudio.com/${VSCODE_VERSION}/linux-x64/stable \
