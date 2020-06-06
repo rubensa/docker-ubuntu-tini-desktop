@@ -8,7 +8,7 @@ USER root
 ENV HOME=/root
 
 # Add GIMP Appimage
-ARG GIMP_VERSION=release-2.10.14
+ARG GIMP_VERSION=release-2.10.18
 ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage
