@@ -12,7 +12,7 @@ ARG GIMP_VERSION=release-2.10.18
 ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage
-ARG DRAWIO_VERSION=12.6.5
+ARG DRAWIO_VERSION=13.0.3
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
 # Set VSCode version
