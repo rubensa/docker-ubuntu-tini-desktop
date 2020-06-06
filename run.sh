@@ -8,8 +8,8 @@ DOCKER_IMAGE_TAG="latest"
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
-# Built in user name
-USER_NAME=user
+# Current user name
+USER_NAME=$(id -un)
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/
@@ -137,7 +137,7 @@ prepare_docker_shared_memory_size() {
 
 prepare_docker_userdata_volumes() {
   # User media folders
-  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents"
+  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents,bind-propagation=shared"
   MOUNTS+=" --mount type=bind,source=$HOME/Downloads,target=/home/$USER_NAME/Downloads"
   MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
@@ -219,7 +219,7 @@ prepare_docker_fuse_sharing
 prepare_docker_shared_memory_size
 prepare_docker_userdata_volumes
 
-bash -c "docker run --rm -it \
+bash -c "docker run -it \
   --name ${DOCKER_IMAGE_NAME} \
   ${SECURITY} \
   ${CAPABILITIES} \
@@ -229,4 +229,4 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  ${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+  ${DOCKER_REPOSITORY_NAME}/custom-${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
