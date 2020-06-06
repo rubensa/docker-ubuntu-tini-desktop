@@ -136,7 +136,7 @@ prepare_docker_in_docker() {
 
 prepare_docker_userdata_volumes() {
   # User media folders
-  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents"
+  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents,bind-propagation=shared"
   MOUNTS+=" --mount type=bind,source=$HOME/Downloads,target=/home/$USER_NAME/Downloads"
   MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
