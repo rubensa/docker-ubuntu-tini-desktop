@@ -1,6 +1,6 @@
-# Docker image with some GUI apps
+# Docker image with some GUI apps and custom user and group names
 
-This is a Docker image based on [rubensa/ubuntu-tini-x11](https://github.com/rubensa/docker-ubuntu-tini-x11) and includes some GUI applications.
+This is a Docker image based on [rubensa/ubuntu-tini-desktop](https://github.com/rubensa/docker-ubuntu-tini-desktop) and customizes the username and groupname to match the ones for the user that builds the image.
 
 ## Building
 
@@ -13,15 +13,33 @@ DOCKER_REPOSITORY_NAME="rubensa"
 DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
 DOCKER_IMAGE_TAG="latest"
 
+# Get current user name
+NEW_USER_NAME=$(id -un)
+# Get current user main group name
+NEW_GROUP_NAME=$(id -gn)
+
+prepare_docker_user_and_group() {
+  # On build, if you specify NEW_USER_NAME or NEW_GROUP_NAME those are used to define the
+  # internal user and group created instead of default ones (user and group)
+  BUILD_ARGS+=" --build-arg NEW_USER_NAME=$NEW_USER_NAME"
+  BUILD_ARGS+=" --build-arg NEW_GROUP_NAME=$NEW_GROUP_NAME"
+}
+
+prepare_docker_user_and_group
+
 docker build --no-cache \
-  -t "${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
+  -t "${DOCKER_REPOSITORY_NAME}/custom-${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
   --label "maintainer=Ruben Suarez <rubensa@gmail.com>" \
+  ${BUILD_ARGS} \
   .
 ```
 
+This way, the internal user an group names are changed to the current host user:group building the image.
+
+
 ## Running
 
-You can run the container like this (change --rm with -d if you don't want the container to be removed on stop):
+You can run the container like this:
 
 ```
 #!/usr/bin/env bash
@@ -34,8 +52,8 @@ DOCKER_IMAGE_TAG="latest"
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
-# Built in user name
-USER_NAME=user
+# Current user name
+USER_NAME=$(id -un)
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/
@@ -163,7 +181,7 @@ prepare_docker_shared_memory_size() {
 
 prepare_docker_userdata_volumes() {
   # User media folders
-  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents"
+  MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents,bind-propagation=shared"
   MOUNTS+=" --mount type=bind,source=$HOME/Downloads,target=/home/$USER_NAME/Downloads"
   MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
@@ -245,7 +263,7 @@ prepare_docker_fuse_sharing
 prepare_docker_shared_memory_size
 prepare_docker_userdata_volumes
 
-bash -c "docker run --rm -it \
+bash -c "docker run -it \
   --name ${DOCKER_IMAGE_NAME} \
   ${SECURITY} \
   ${CAPABILITIES} \
@@ -255,7 +273,7 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  ${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+  ${DOCKER_REPOSITORY_NAME}/custom-${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 ```
 
 *NOTE*: Mounting /var/run/docker.sock allows host docker usage inside the container (docker-from-docker).
@@ -324,7 +342,7 @@ docker stop  \
 
 ## Start
 
-If you run the container without --rm you can start it again like this:
+You can start it again like this:
 
 ```
 #!/usr/bin/env bash
@@ -340,7 +358,7 @@ docker start \
 
 ## Remove
 
-If you run the container without --rm you can remove once stopped like this:
+You can remove once stopped like this:
 
 ```
 #!/usr/bin/env bash
