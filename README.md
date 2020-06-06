@@ -259,16 +259,20 @@ Once connected...
 You can run any installed application:
 
 ```
-thunderbird
+calibre
 google-chrome-stable
-vlc
+deluge
+draw.io
+filezilla
+gimp
 inkscape
 krita
 libreoffice
-deluge
-filezilla
+meld
 remmina
-calibre
+teams
+thunderbird
+vlc
 ```
 
 ## Stop
