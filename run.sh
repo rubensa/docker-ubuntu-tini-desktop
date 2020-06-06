@@ -8,8 +8,8 @@ DOCKER_IMAGE_TAG="latest"
 USER_ID=$(id -u)
 # Get current user main GUID
 GROUP_ID=$(id -g)
-# Built in user name
-USER_NAME=user
+# Current user name
+USER_NAME=$(id -un)
 
 prepare_docker_timezone() {
   # https://www.waysquare.com/how-to-change-docker-timezone/
@@ -258,7 +258,7 @@ prepare_docker_user_fake_config
 prepare_docker_userdata_volumes
 allow_new_user_namespaces
 
-bash -c "docker run --rm -it \
+bash -c "docker run -it \
   --name ${DOCKER_IMAGE_NAME} \
   ${SECURITY} \
   ${CAPABILITIES} \
@@ -268,4 +268,4 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  ${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+  ${DOCKER_REPOSITORY_NAME}/custom-${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"

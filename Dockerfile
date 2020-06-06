@@ -1,6 +1,16 @@
 # syntax=docker/dockerfile:1.4
-FROM rubensa/ubuntu-tini-x11
+FROM rubensa/ubuntu-tini-desktop
 LABEL author="Ruben Suarez <rubensa@gmail.com>"
+
+# $(id -un)
+ARG NEW_USER_NAME=
+# $(id -gn)
+ARG NEW_GROUP_NAME=
+
+# Use USER_NAME if no NEW_USER_NAME specified
+ENV NEW_USER_NAME=${NEW_USER_NAME:-$USER_NAME}
+# Use GROUP_NAME if no NEW_GROUP_NAME specified
+ENV NEW_GROUP_NAME=${NEW_GROUP_NAME:-$GROUP_NAME}
 
 # Tell docker that all future commands should be run as root
 USER root
@@ -8,207 +18,34 @@ USER root
 # Set root home directory
 ENV HOME=/root
 
-# Avoid warnings by switching to noninteractive
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Configure apt
-RUN apt-get update
-
-# Add calibre
+# Custom username
 RUN <<EOT
-echo "# Installing calibre..."
-apt-get -y install --no-install-recommends calibre 2>&1
+if [ "${NEW_USER_NAME}" != "${USER_NAME}" ]; then
+  usermod -l ${NEW_USER_NAME} -d /home/${NEW_USER_NAME} -m ${USER_NAME}
+  # Add sudo support for new user
+  # FIX: Filename under /etc/sudoers.d does not support periods.  Do it the hacky way...
+  FILENAME="$( echo $NEW_USER_NAME | tr  '.' '_'  )"
+  echo "${NEW_USER_NAME} ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/${FILENAME}
+  chmod 0440 /etc/sudoers.d/${FILENAME}
+  # Revome old user sudo support
+  rm /etc/sudoers.d/${USER_NAME}
+fi
 EOT
 
-# Install chrome dependencies
-RUN apt-get -y install --no-install-recommends libx11-xcb1 2>&1
-# Add google chrome repo
+# Custom groupname
 RUN <<EOT
-mkdir -p /etc/apt/keyrings/
-curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google.gpg
-printf "deb [signed-by=/etc/apt/keyrings/google.gpg] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-# Install google chrome
-echo "# Installing chrome..."
-apt-get update
-apt-get -y install --no-install-recommends google-chrome-stable 2>&1
-EOT
-
-# Install deluge dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common python3-setuptools 2>&1
-# Add Deluge
-RUN <<EOT
-echo "# Installing deluge..."
-apt-get -y install --no-install-recommends deluge 2>&1
-EOT
-
-# Install Appimage and draw.io dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
-# Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=29.3.0
-# Add draw.io
-RUN echo "# Installing draw.io..."
-ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
-# Make Appimage executable
-RUN chmod +rx /usr/local/bin/draw.io
-
-# Add filezilla
-RUN <<EOT
-echo "# Installing filezilla..."
-apt-get -y install --no-install-recommends filezilla 2>&1
-EOT
-
-# Install Appimage and GIMP dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
-ARG GIMP_SNAPSHOT_VERSION=20260111-141519
-ARG GIMP_VERSION=3.0.6-2-archimage5.0
-# Add GIMP
-RUN echo "# Installing gimp..."
-ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/${GIMP_SNAPSHOT_VERSION}/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
-# Make Appimage executable
-RUN chmod +rx /usr/local/bin/gimp
-
-# Install Appimage and inkscape dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Inkscape Appimage GitLab build job ID (NKSCAPE_1_4_3 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=12542282172
-# Add Inkscape
-RUN echo "# Installing inkscape..."
-ADD https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download /tmp/Inkscape.zip
-# Inkscape Appimage
-RUN <<EOT
-unzip /tmp/Inkscape.zip -d /tmp
-find /tmp -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \;
-rm /tmp/Inkscape*
+if [ "${NEW_GROUP_NAME}" != "${GROUP_NAME}" ]; then
+  # groupmod -n ${NEW_GROUP_NAME} ${GROUP_NAME}
+  # FIX: groupmod does not support spaces in group name.  Do it the hacky way...
+  sed -i 's/^'"$GROUP_NAME"':/'"$NEW_GROUP_NAME"':/g' /etc/group
+fi
 #
-# Make Appimage executable
-chmod +rx /usr/local/bin/inkscape
+# Update fixuid config
+printf "user: ${NEW_USER_NAME}\ngroup: ${NEW_GROUP_NAME}\npaths:\n  - /home/${NEW_USER_NAME}" > /etc/fixuid/config.yml
 EOT
 
-# Install Krita dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Add Krita (https://krita.org/en/download/)
-ARG KRITA_VERSION=5.2.14
-# Add Krita
-RUN echo "# Installing krita..."
-ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.AppImage /usr/local/bin/krita
-# Make Appimage executable
-RUN chmod +rx /usr/local/bin/krita
-
-# Install libreoffice dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common default-jre 2>&1
-# Add LibreOffice
-RUN <<EOT
-echo "# Installing libreoffice..."
-#
-# Add LibreOffice repo
-add-apt-repository -y ppa:libreoffice/ppa
-apt-get update
-apt-get -y install --no-install-recommends libreoffice libreoffice-java-common 2>&1
-EOT
-
-# Install meld dependencies
-RUN apt-get -y install --no-install-recommends adwaita-icon-theme-full 2>&1
-# Add meld
-RUN <<EOT
-echo "# Installing meld..."
-apt-get -y install --no-install-recommends meld 2>&1
-EOT
-
-# Add remmina
-RUN <<EOT
-echo "# Installing remmina..."
-apt-get -y install --no-install-recommends remmina 2>&1
-EOT
-
-# NOTE: Slack depends on chrome to be installed
-# Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.47.69
-# Add Slack
-RUN <<EOT
-echo "# Installing slack..."
-curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLACK_VERSION}/slack-desktop-${SLACK_VERSION}-amd64.deb
-apt-get -y install ./slack-desktop-amd64.deb
-rm ./slack-desktop-amd64.deb
-EOT
-
-# Add Thunderbird
-RUN <<EOT
-echo "# Installing thunderbird..."
-#
-# Add Thunderbird repo
-add-apt-repository -y ppa:mozillateam/ppa
-printf "Package: thunderbird*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n" >> /etc/apt/preferences.d/mozillateamppa
-apt-get update
-apt-get -y install --no-install-recommends thunderbird 2>&1
-EOT
-
-# Install Appimage and VLC dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_SNAPSHOT_VERSION=20260105-162910
-ARG VLC_VERSION=3.0.21-32-archimage5.0
-# Add VLC
-RUN echo "# Installing vlc..."
-ADD https://github.com/ivan-hc/VLC-appimage/releases/download/${VLC_SNAPSHOT_VERSION}/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
-# Make Appimage executable
-RUN chmod +rx /usr/local/bin/vlc
-
-# Add Zoom (https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061222)
-ARG ZOOM_VERSION=6.7.2.6498
-RUN <<EOT
-echo "# Installing zoom..."
-curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb
-apt-get -y install ./zoom.deb
-rm ./zoom.deb
-EOT
-
-# Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.119
-ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
-RUN <<EOT
-echo "# Installing Discord..."
-tar xvfz /tmp/discord.tar.gz --directory /opt
-rm /tmp/discord.tar.gz
-ln -s /opt/Discord/Discord /usr/local/bin/Discord
-EOT
-
-# Install OBS Studio dependencies (and Virtual camera support)
-RUN apt-get -y install --no-install-recommends software-properties-common v4l2loopback-dkms 2>&1
-# Add OBS Studio
-RUN <<EOT
-echo "# Installing OBS Studio..."
-apt-get -y install --no-install-recommends obs-studio 2>&1
-EOT
-
-# Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
-ARG TELEGRAM_VERSION=6.4.2
-ADD https://td.telegram.org/tlinux/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
-RUN <<EOT
-echo "# Installing Telegram..."
-tar xvf /tmp/telegram.tar.gz --directory /opt
-rm /tmp/telegram.tar.gz
-ln -s /opt/Telegram/Telegram /usr/local/bin/Telegram
-EOT
-
-# Install TeraBox (https://www.terabox.app/)
-ARG TERABOX_VERSION=1.42.6
-ADD https://data.nephobox.com/issue/terabox/Linux/${TERABOX_VERSION}/TeraBox_${TERABOX_VERSION}_amd64.deb /tmp/terabox.deb
-RUN <<EOT
-echo "# Installing TeraBox..."
-apt-get -y install --no-install-recommends /tmp/terabox.deb 2>&1
-rm /tmp/terabox.deb
-EOT
-
-# Clean up apt
-RUN <<EOT
-apt-get autoremove -y
-apt-get clean -y
-rm -rf /var/lib/apt/lists/*
-EOT
-
-# Switch back to dialog for any ad-hoc use of apt-get
-ENV DEBIAN_FRONTEND=
+ENV USER_NAME=${NEW_USER_NAME}
+ENV GROUP_NAME=${NEW_GROUP_NAME}
 
 # Tell docker that all future commands should be run as the non-root user
 USER ${USER_NAME}
