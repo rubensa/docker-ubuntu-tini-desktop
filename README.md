@@ -10,7 +10,7 @@ You can build the image like this:
 #!/usr/bin/env bash
 
 docker build --no-cache \
-  -t "rubensa/ubuntu-tini-desktop" \
+  -t "rubensa/custom-ubuntu-tini-desktop" \
   --label "maintainer=Ruben Suarez <rubensa@gmail.com>" \
   .
 ```
@@ -231,7 +231,7 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  rubensa/ubuntu-tini-desktop"
+  rubensa/custom-ubuntu-tini-desktop"
 ```
 
 *NOTE*: Mounting /etc/timezone and /etc/localtime allows you to use your host timezone on container.
