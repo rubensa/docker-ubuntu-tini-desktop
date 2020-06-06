@@ -15,9 +15,6 @@ ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/G
 ARG DRAWIO_VERSION=13.0.3
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
-# Set VSCode version
-ARG VSCODE_VERSION=1.42.1
-
 # suppress GTK warnings about accessibility
 # (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
 ENV NO_AT_BRIDGE 1
@@ -59,23 +56,6 @@ RUN apt-get update && apt-get -y upgrade \
     # Install software
     && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams \
     #
-    # Install VSCode
-    && curl -L -o code-stable-${VSCODE_VERSION}.tar.gz https://update.code.visualstudio.com/${VSCODE_VERSION}/linux-x64/stable \
-    && tar -xf code-stable-${VSCODE_VERSION}.tar.gz -C /opt \
-    && rm code-stable-${VSCODE_VERSION}.tar.gz \
-    #
-    # Assign group folder ownership
-    && chgrp -R ${GROUP_NAME} /opt/VSCode-linux-x64 \
-    #
-    # Set the segid bit to the folder
-    && chmod -R g+s /opt/VSCode-linux-x64 \
-    #
-    # Give write and exec acces so anyobody can use it
-    && chmod -R ga+wX /opt/VSCode-linux-x64 \
-    #
-    # Link to standard binary PATH
-    && ln -s /opt/VSCode-linux-x64/code /usr/local/bin/code \
-    #
     # Inkscape Appimage (INKSCAPE_1_0_BETA2)
     && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/368309106/artifacts/download \
     && unzip Inkscape.zip \
@@ -85,7 +65,6 @@ RUN apt-get update && apt-get -y upgrade \
     # Make Appimages executable
     && chmod +rx /usr/local/bin/gimp \
     && chmod +rx /usr/local/bin/draw.io \
-    && chmod +rx /usr/local/bin/code \
     && chmod +rx /usr/local/bin/inkscape \
     #
     # Clean up

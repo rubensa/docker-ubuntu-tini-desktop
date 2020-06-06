@@ -150,9 +150,6 @@ prepare_docker_userdata_volumes() {
   # Git config
   [ -f $HOME/.gitconfig ] || touch $HOME/.gitconfig
   MOUNTS+=" --mount type=bind,source=$HOME/.gitconfig,target=/home/$USER_NAME/.gitconfig"
-  # VSCode config
-  [ -d $HOME/.config/Code ] || mkdir -p $HOME/.config/Code
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/Code,target=/home/$USER_NAME/.config/Code"
   # Thunderbird config
   [ -d $HOME/.thunderbird ] || mkdir -p $HOME/.thunderbird
   MOUNTS+=" --mount type=bind,source=$HOME/.thunderbird,target=/home/$USER_NAME/.thunderbird"
