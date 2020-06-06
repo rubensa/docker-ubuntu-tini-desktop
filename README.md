@@ -115,7 +115,7 @@ prepare_docker_x11_host_sharing() {
 
 prepare_docker_hostname_host_sharing() {
   # Using host hostname allows gnome-shell windows grouping
-  EXTRA+="  --hostname `hostname`"
+  EXTRA+=" --hostname `hostname`"
 }
 
 prepare_docker_nvidia_drivers_install() {
@@ -192,6 +192,9 @@ prepare_docker_userdata_volumes() {
   [ -f "$HOME/Calibre Library" ] || mkdir -p "$HOME/Calibre Library"
   MOUNTS+=" --mount type=bind,source=$HOME/.config/calibre,target=/home/$USER_NAME/.config/calibre"
   MOUNTS+=" --mount type=bind,source=$HOME/Calibre\ Library,target=/home/$USER_NAME/Calibre\ Library"
+  # Microsoft Teams
+  [ -d $HOME/.config/Microsoft ] || mkdir -p $HOME/.config/Microsoft
+  MOUNTS+=" --mount type=bind,source=$HOME/.config/Microsoft,target=/home/$USER_NAME/.config/Microsoft"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"
