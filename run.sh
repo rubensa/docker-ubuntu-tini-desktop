@@ -209,4 +209,4 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  rubensa/ubuntu-tini-desktop"
+  rubensa/ubuntu-tini-desktop:20.04"

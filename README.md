@@ -1,6 +1,6 @@
 # Docker image with some GUI apps
 
-This is a Docker image based on [rubensa/ubuntu-tini-x11](https://github.com/rubensa/docker-ubuntu-tini-x11) and includes some GUI applications.
+This is a Docker image based on [rubensa/ubuntu-tini-x11](https://github.com/rubensa/docker-ubuntu-tini-x11) 20.04 and includes some GUI applications.
 
 ## Building
 
@@ -10,7 +10,7 @@ You can build the image like this:
 #!/usr/bin/env bash
 
 docker build --no-cache \
-  -t "rubensa/ubuntu-tini-desktop" \
+  -t "rubensa/ubuntu-tini-desktop:20.04" \
   --label "maintainer=Ruben Suarez <rubensa@gmail.com>" \
   .
 ```
@@ -231,7 +231,7 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  rubensa/ubuntu-tini-desktop"
+  rubensa/ubuntu-tini-desktop:20.04"
 ```
 
 *NOTE*: Mounting /etc/timezone and /etc/localtime allows you to use your host timezone on container.
