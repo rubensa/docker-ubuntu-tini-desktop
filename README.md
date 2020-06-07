@@ -163,6 +163,12 @@ prepare_docker_userdata_volumes() {
   MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
   MOUNTS+=" --mount type=bind,source=$HOME/Videos,target=/home/$USER_NAME/Videos"
+  # wine config
+  [ -d $HOME/.wine ] || mkdir -p $HOME/.wine
+  MOUNTS+=" --mount type=bind,source=$HOME/.wine,target=/home/$USER_NAME/.wine"
+  # winetricks cache
+  [ -d $HOME/.cache/winetricks ] || mkdir -p $HOME/.cache/winetricks
+  MOUNTS+=" --mount type=bind,source=$HOME/.cache/winetricks,target=/home/$USER_NAME/.cache/winetricks"
   # ssh config
   [ -d $HOME/.ssh ] || mkdir -p $HOME/.ssh
   MOUNTS+=" --mount type=bind,source=$HOME/.ssh,target=/home/$USER_NAME/.ssh"

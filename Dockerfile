@@ -15,6 +15,9 @@ ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/G
 ARG DRAWIO_VERSION=13.0.3
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
+# Inkscape Appimage GitLab build job ID (INKSCAPE_1_0)
+ARG INKSCAPE_JOBID=534816580
+
 # suppress GTK warnings about accessibility
 # (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
 ENV NO_AT_BRIDGE 1
@@ -26,7 +29,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y upgrade \
     # 
     # Install software and needed libraries
-    && apt-get -y install --no-install-recommends software-properties-common gnupg fuse qtwayland5 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 libxcb-xinerama0 2>&1 \
+    && apt-get -y install --no-install-recommends software-properties-common gnupg fuse qtwayland5 libavcodec-extra58 libavcodec-extra libcanberra-gtk-module libcanberra-gtk3-module qml-module-qtquick-controls libgconf-2-4 libxkbfile1 libxcb-xinerama0 2>&1 \
     #
     # Add Repos
     #
@@ -54,10 +57,10 @@ RUN apt-get update && apt-get -y upgrade \
     && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     #
     # Install software
-    && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams \
+    && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams 2>&1 \
     #
-    # Inkscape Appimage (INKSCAPE_1_0_BETA2)
-    && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/368309106/artifacts/download \
+    # Inkscape Appimage
+    && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download \
     && unzip Inkscape.zip \
     && find . -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \; \
     && rm Inkscape* \
