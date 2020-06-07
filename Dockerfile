@@ -1,4 +1,4 @@
-FROM rubensa/ubuntu-tini-x11
+FROM rubensa/ubuntu-tini-x11:18.04
 LABEL author="Ruben Suarez <rubensa@gmail.com>"
 
 # Tell docker that all future commands should be run as root
@@ -28,10 +28,13 @@ RUN mkdir -p /etc/apt/keyrings/ \
   && apt-get update && apt-get -y install --no-install-recommends google-chrome-stable 2>&1;
 
 # Install deluge dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common python3-setuptools 2>&1
+RUN apt-get -y install --no-install-recommends software-properties-common 2>&1
 # Add Deluge
 RUN echo "# Installing deluge..." \
-  && apt-get -y install --no-install-recommends deluge 2>&1
+  #
+  # Add Deluge repo
+  && add-apt-repository -y ppa:deluge-team/stable \
+  && apt-get update && apt-get -y install --no-install-recommends deluge 2>&1
 
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
@@ -112,11 +115,7 @@ RUN echo "# Installing slack..." \
 
 # Add Thunderbird
 RUN echo "# Installing thunderbird..." \
-  #
-  # Add Thunderbird repo
-  && add-apt-repository -y ppa:mozillateam/ppa \
-  && printf "Package: thunderbird*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n" >> /etc/apt/preferences.d/mozillateamppa \
-  && apt-get update && apt-get -y install --no-install-recommends thunderbird 2>&1
+  && apt-get -y install --no-install-recommends thunderbird 2>&1
 
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
@@ -147,7 +146,10 @@ RUN echo "# Installing Discord..." \
 RUN apt-get -y install --no-install-recommends software-properties-common v4l2loopback-dkms 2>&1
 # Add OBS Studio
 RUN echo "# Installing OBS Studio..." \
-  && apt-get -y install --no-install-recommends obs-studio 2>&1;
+  #
+  # Add OBS Studio repo
+  && add-apt-repository ppa:obsproject/obs-studio \
+  && apt-get update && apt-get -y install --no-install-recommends obs-studio 2>&1;
 
 # Clean up apt
 RUN apt-get autoremove -y \
