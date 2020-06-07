@@ -1,4 +1,4 @@
-FROM rubensa/ubuntu-tini-x11
+FROM rubensa/ubuntu-tini-x11:18.04
 LABEL author="Ruben Suarez <rubensa@gmail.com>"
 
 # Tell docker that all future commands should be run as root
