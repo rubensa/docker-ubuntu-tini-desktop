@@ -18,6 +18,9 @@ ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION
 # Inkscape Appimage GitLab build job ID (INKSCAPE_1_0)
 ARG INKSCAPE_JOBID=534816580
 
+# Pencil
+ARG PENCIL_VERSION=3.1.0.ga
+
 # suppress GTK warnings about accessibility
 # (WARNING **: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-dw0fOAy4vj: Connection refused)
 ENV NO_AT_BRIDGE 1
@@ -58,6 +61,10 @@ RUN apt-get update && apt-get -y upgrade \
     #
     # Install software
     && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams 2>&1 \
+    #
+    # Pencil Ubuntu 64 DEB Package
+    && curl -L -o pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
+    && apt-get -y install ./pencil.deb \
     #
     # Inkscape Appimage
     && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download \

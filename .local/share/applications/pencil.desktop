@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=Pencil
+Comment=Pencil Project
+Version=3.1.0.ga
+Type=Application
+Categories=Graphics
+MimeType=text/plain;
+Exec=docker exec ubuntu-tini-desktop bash -l -c "pencil %F"
+Terminal=false
+StartupNotify=true
+Icon=pencil

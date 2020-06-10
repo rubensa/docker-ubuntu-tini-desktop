@@ -278,6 +278,7 @@ inkscape
 krita
 libreoffice
 meld
+pencil
 remmina
 teams
 thunderbird
