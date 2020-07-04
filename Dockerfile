@@ -65,6 +65,7 @@ RUN apt-get update && apt-get -y upgrade \
     # Pencil Ubuntu 64 DEB Package
     && curl -L -o pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
     && apt-get -y install ./pencil.deb \
+    && rm ./pencil.deb \
     #
     # Inkscape Appimage
     && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download \
