@@ -38,7 +38,7 @@ RUN apt-get update && apt-get -y upgrade \
     #
     # Chrome repo
     && printf "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && curl https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
     #
     # Thunderbird repo
     && add-apt-repository -y ppa:mozillateam/ppa \
@@ -57,18 +57,18 @@ RUN apt-get update && apt-get -y upgrade \
     #
     # Microsoft Teams repo
     && printf "deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main" >> /etc/apt/sources.list.d/teams.list \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     #
     # Install software
     && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams 2>&1 \
     #
     # Pencil Ubuntu 64 DEB Package
-    && curl -L -o pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
+    && curl -o pencil.deb -sSL https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
     && apt-get -y install ./pencil.deb \
     && rm ./pencil.deb \
     #
     # Inkscape Appimage
-    && curl -L -o Inkscape.zip https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download \
+    && curl -o Inkscape.zip -sSL https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download \
     && unzip Inkscape.zip \
     && find . -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \; \
     && rm Inkscape* \
