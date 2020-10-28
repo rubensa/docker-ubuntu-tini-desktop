@@ -8,11 +8,11 @@ USER root
 ENV HOME=/root
 
 # Add GIMP Appimage
-ARG GIMP_VERSION=release-2.10.20
+ARG GIMP_VERSION=release-2.10.22
 ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage
-ARG DRAWIO_VERSION=13.6.2
+ARG DRAWIO_VERSION=13.7.9
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
 # Inkscape Appimage GitLab build job ID (INKSCAPE_1_0_1)
@@ -61,6 +61,9 @@ RUN apt-get update && apt-get -y upgrade \
     #
     # Install software
     && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams 2>&1 \
+    #
+    # Patch calibre see: https://bugs.launchpad.net/calibre/+bug/1877180
+    && sed -ie 's/self._listener._unlink.cancel/# self._listener._unlink.cancel'/ /usr/lib/calibre/calibre/utils/ipc/server.py \
     #
     # Pencil Ubuntu 64 DEB Package
     && curl -o pencil.deb -sSL https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
