@@ -173,6 +173,9 @@ prepare_docker_userdata_volumes() {
   # Microsoft Teams
   [ -d $HOME/.config/Microsoft ] || mkdir -p $HOME/.config/Microsoft
   MOUNTS+=" --mount type=bind,source=$HOME/.config/Microsoft,target=/home/$USER_NAME/.config/Microsoft"
+  # Zoom
+  [ -d $HOME/.zoom ] || mkdir -p $HOME/.zoom
+  MOUNTS+=" --mount type=bind,source=$HOME/.zoom,target=/home/$USER_NAME/.zoom"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"

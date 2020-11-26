@@ -76,6 +76,11 @@ RUN apt-get update && apt-get -y upgrade \
     && find . -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \; \
     && rm Inkscape* \
     #
+    # Zoom
+    && curl -o zoom.deb -sSL https://zoom.us/client/latest/zoom_amd64.deb \
+    && apt-get -y install ./zoom.deb \
+    && rm ./zoom.deb \
+    #
     # Make Appimages executable
     && chmod +rx /usr/local/bin/gimp \
     && chmod +rx /usr/local/bin/draw.io \
