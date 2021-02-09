@@ -12,11 +12,11 @@ ARG GIMP_VERSION=release-2.10.22
 ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=13.9.9
+ARG DRAWIO_VERSION=14.1.8
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/draw.io-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
-# Inkscape Appimage GitLab build job ID (INKSCAPE_1_0_1 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=724275819
+# Inkscape Appimage GitLab build job ID (INKSCAPE_1_0_2 https://gitlab.com/inkscape/inkscape/-/tags)
+ARG INKSCAPE_JOBID=967369502
 
 # Pencil (https://pencil.evolus.vn/Downloads.html)
 ARG PENCIL_VERSION=3.1.0.ga
