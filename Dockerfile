@@ -62,9 +62,6 @@ RUN apt-get update && apt-get -y upgrade \
     # Install software
     && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams 2>&1 \
     #
-    # Patch calibre see: https://bugs.launchpad.net/calibre/+bug/1877180
-    && sed -ie 's/self._listener._unlink.cancel/# self._listener._unlink.cancel'/ /usr/lib/calibre/calibre/utils/ipc/server.py \
-    #
     # Pencil Ubuntu 64 DEB Package
     && curl -o pencil.deb -sSL https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
     && apt-get -y install ./pencil.deb \
