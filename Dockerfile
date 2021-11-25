@@ -8,15 +8,15 @@ USER root
 ENV HOME=/root
 
 # Add GIMP Appimage (https://github.com/aferrero2707/gimp-appimage/releases)
-ARG GIMP_VERSION=release-2.10.22
-ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
+ARG GIMP_VERSION=2.10.22
+ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-release-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=15.1.3
+ARG DRAWIO_VERSION=15.8.4
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
-# Inkscape Appimage GitLab build job ID (INKSCAPE_1_1 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=1287225025
+# Inkscape Appimage GitLab build job ID (INKSCAPE_1_1_1 https://gitlab.com/inkscape/inkscape/-/tags)
+ARG INKSCAPE_JOBID=1610450970
 
 # Pencil (https://pencil.evolus.vn/Downloads.html)
 ARG PENCIL_VERSION=3.1.0.ga
