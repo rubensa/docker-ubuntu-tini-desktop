@@ -60,7 +60,7 @@ RUN apt-get update && apt-get -y upgrade \
     && curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     #
     # Install software
-    && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre meld teams 2>&1 \
+    && apt-get update && apt-get -y upgrade && apt-get -y install thunderbird google-chrome-stable vlc krita libreoffice deluge filezilla remmina calibre adwaita-icon-theme-full meld teams 2>&1 \
     #
     # Pencil Ubuntu 64 DEB Package
     && curl -o pencil.deb -sSL https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
