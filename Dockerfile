@@ -12,7 +12,7 @@ ARG GIMP_VERSION=2.10.22
 ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-release-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
 
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=15.8.4
+ARG DRAWIO_VERSION=16.5.1
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
 
 # Inkscape Appimage GitLab build job ID (INKSCAPE_1_1_1 https://gitlab.com/inkscape/inkscape/-/tags)
