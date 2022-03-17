@@ -87,8 +87,14 @@ prepare_docker_x11_host_sharing() {
   MOUNTS+=" --mount type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix"
   ENV_VARS+=" --env=DISPLAY=unix${DISPLAY}"
   # Credentials in cookies used by xauth for authentication of X sessions
-  MOUNTS+=" --mount type=bind,source=${XAUTHORITY},target=${XAUTHORITY}"
-  ENV_VARS+=" --env=XAUTHORITY=${XAUTHORITY}"
+  if [ -f "${XAUTHORITY}" ]; then
+    # IMPORTANT! You MUST run this command before starting the container to update the link
+    if [ "${XAUTHORITY}" != "${HOME}/.Xauthority" ]; then
+      ln -sf "${XAUTHORITY}" "${HOME}/.Xauthority"
+    fi
+    MOUNTS+=" --mount type=bind,source=${HOME}/.Xauthority,target=/home/${USER_NAME}/.Xauthority"
+    ENV_VARS+=" --env=XAUTHORITY=/home/${USER_NAME}/.Xauthority"
+  fi
 }
 
 prepare_docker_hostname_host_sharing() {
@@ -124,10 +130,10 @@ prepare_docker_in_docker() {
     MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
   fi
   if [ -f "`command -v docker`" ]; then
-    MOUNTS+=" --mount type=bind,source=`command -v docker`,target=/home/$USER_NAME/.local/bin/docker"
+    MOUNTS+=" --mount type=bind,source=`command -v docker`,target=/home/${USER_NAME}/.local/bin/docker"
   fi
   if [ -f "`command -v docker-compose`" ]; then
-    MOUNTS+=" --mount type=bind,source=`command -v docker-compose`,target=/home/$USER_NAME/.local/bin/docker-compose"
+    MOUNTS+=" --mount type=bind,source=`command -v docker-compose`,target=/home/${USER_NAME}/.local/bin/docker-compose"
   fi
   if [ ! -z "`getent group docker`" ]; then
     RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
@@ -142,40 +148,40 @@ prepare_docker_userdata_volumes() {
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
   MOUNTS+=" --mount type=bind,source=$HOME/Videos,target=/home/$USER_NAME/Videos"
   # ssh config
-  [ -d $HOME/.ssh ] || mkdir -p $HOME/.ssh
-  MOUNTS+=" --mount type=bind,source=$HOME/.ssh,target=/home/$USER_NAME/.ssh"
+  [ -d ${HOME}/.ssh ] || mkdir -p ${HOME}/.ssh
+  MOUNTS+=" --mount type=bind,source=${HOME}/.ssh,target=/home/${USER_NAME}/.ssh"
   # Maven config
-  [ -d $HOME/.m2 ] || mkdir -p $HOME/.m2
-  MOUNTS+=" --mount type=bind,source=$HOME/.m2,target=/home/$USER_NAME/.m2"
+  [ -d ${HOME}/.m2 ] || mkdir -p ${HOME}/.m2
+  MOUNTS+=" --mount type=bind,source=${HOME}/.m2,target=/home/${USER_NAME}/.m2"
   # Git config
-  [ -f $HOME/.gitconfig ] || touch $HOME/.gitconfig
-  MOUNTS+=" --mount type=bind,source=$HOME/.gitconfig,target=/home/$USER_NAME/.gitconfig"
+  [ -f ${HOME}/.gitconfig ] || touch ${HOME}/.gitconfig
+  MOUNTS+=" --mount type=bind,source=${HOME}/.gitconfig,target=/home/${USER_NAME}/.gitconfig"
   # Thunderbird config
-  [ -d $HOME/.thunderbird ] || mkdir -p $HOME/.thunderbird
-  MOUNTS+=" --mount type=bind,source=$HOME/.thunderbird,target=/home/$USER_NAME/.thunderbird"
+  [ -d ${HOME}/.thunderbird ] || mkdir -p ${HOME}/.thunderbird
+  MOUNTS+=" --mount type=bind,source=${HOME}/.thunderbird,target=/home/${USER_NAME}/.thunderbird"
   # Chrome config
-  [ -d $HOME/.config/google-chrome ] || mkdir -p $HOME/.config/google-chrome
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/google-chrome,target=/home/$USER_NAME/.config/google-chrome"
+  [ -d ${HOME}/.config/google-chrome ] || mkdir -p ${HOME}/.config/google-chrome
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/google-chrome,target=/home/${USER_NAME}/.config/google-chrome"
   # Filezilla config
-  [ -d $HOME/.config/filezilla ] || mkdir -p $HOME/.config/filezilla
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/filezilla,target=/home/$USER_NAME/.config/filezilla"
+  [ -d ${HOME}/.config/filezilla ] || mkdir -p ${HOME}/.config/filezilla
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/filezilla,target=/home/${USER_NAME}/.config/filezilla"
   # VLC config
-  [ -d $HOME/.config/vlc ] || mkdir -p $HOME/.config/vlc
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/vlc,target=/home/$USER_NAME/.config/vlc"
+  [ -d ${HOME}/.config/vlc ] || mkdir -p ${HOME}/.config/vlc
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/vlc,target=/home/${USER_NAME}/.config/vlc"
   # Remmina config
-  [ -d $HOME/.config/remmina ] || mkdir -p $HOME/.config/remmina
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/remmina,target=/home/$USER_NAME/.config/remmina"
+  [ -d ${HOME}/.config/remmina ] || mkdir -p ${HOME}/.config/remmina
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/remmina,target=/home/${USER_NAME}/.config/remmina"
   # Calibre library
-  [ -d $HOME/.config/calibre ] || mkdir -p $HOME/.config/calibre
-  [ -f "$HOME/Calibre Library" ] || mkdir -p "$HOME/Calibre Library"
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/calibre,target=/home/$USER_NAME/.config/calibre"
-  MOUNTS+=" --mount type=bind,source=$HOME/Calibre\ Library,target=/home/$USER_NAME/Calibre\ Library"
+  [ -d ${HOME}/.config/calibre ] || mkdir -p ${HOME}/.config/calibre
+  [ -f "${HOME}/Calibre Library" ] || mkdir -p "${HOME}/Calibre Library"
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/calibre,target=/home/${USER_NAME}/.config/calibre"
+  MOUNTS+=" --mount type=bind,source=${HOME}/Calibre\ Library,target=/home/${USER_NAME}/Calibre\ Library"
   # Microsoft Teams
-  [ -d $HOME/.config/Microsoft ] || mkdir -p $HOME/.config/Microsoft
-  MOUNTS+=" --mount type=bind,source=$HOME/.config/Microsoft,target=/home/$USER_NAME/.config/Microsoft"
+  [ -d ${HOME}/.config/Microsoft ] || mkdir -p ${HOME}/.config/Microsoft
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/Microsoft,target=/home/${USER_NAME}/.config/Microsoft"
   # Zoom
-  [ -d $HOME/.zoom ] || mkdir -p $HOME/.zoom
-  MOUNTS+=" --mount type=bind,source=$HOME/.zoom,target=/home/$USER_NAME/.zoom"
+  [ -d ${HOME}/.zoom ] || mkdir -p ${HOME}/.zoom
+  MOUNTS+=" --mount type=bind,source=${HOME}/.zoom,target=/home/${USER_NAME}/.zoom"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"
