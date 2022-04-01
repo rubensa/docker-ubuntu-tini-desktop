@@ -111,6 +111,15 @@ RUN echo "# Installing pencil..." \
 RUN echo "# Installing remmina..." \
     && apt-get -y install --no-install-recommends remmina 2>&1
 
+# NOTE: Slack depends on chrome to be installed
+# Slack (https://slack.com/intl/es-es/downloads/linux)
+ARG SLACK_VERSION=4.24.0
+# Add Slack
+RUN echo "# Installing slack..." \
+    && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
+    && apt-get -y install ./slack-desktop-amd64.deb \
+    && rm ./slack-desktop-amd64.deb
+
 # Install teams dependencies
 RUN apt-get -y install --no-install-recommends libsecret-1-0 2>&1
 # Add Microsoft Teams

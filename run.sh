@@ -182,6 +182,9 @@ prepare_docker_userdata_volumes() {
   # Zoom
   [ -d ${HOME}/.zoom ] || mkdir -p ${HOME}/.zoom
   MOUNTS+=" --mount type=bind,source=${HOME}/.zoom,target=/home/${USER_NAME}/.zoom"
+  # Slack
+  [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"

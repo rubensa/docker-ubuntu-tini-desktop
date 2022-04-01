@@ -1,0 +1,16 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+#Actions=
+Categories=GNOME;GTK;Network;InstantMessaging;
+Comment=Slack Desktop
+Exec=docker exec ubuntu-tini-desktop bash -l -c "slack %F"
+GenericName=Slack Client for Linux
+Icon=slack
+MimeType=x-scheme-handler/slack;
+Name=Slack
+StartupNotify=true
+StartupWMClass=Slack
+Terminal=false
+Type=Application
+Version=1.0
