@@ -1,15 +1,16 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Version=1.0
-Type=Application
-Terminal=false
-Exec=docker exec ubuntu-tini-desktop bash -l -c "thunderbird %u"
-Name=Thunderbird Mail
+#Actions=
+Categories=Network;Email;
 Comment=Send and receive mail with Thunderbird
+Exec=docker exec ubuntu-tini-desktop bash -l -c "thunderbird %u"
 GenericName=Mail Client
 Icon=thunderbird
-Categories=Network;Email;
 MimeType=text/html;text/xml;application/xhtml+xml;application/rss+xml;x-scheme-handler/mailto;
-StartupWMClass=Thunderbird
+Name=Thunderbird Mail
 StartupNotify=true
+StartupWMClass=Thunderbird
+Terminal=false
+Type=Application
+Version=1.0

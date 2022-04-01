@@ -1,14 +1,16 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Version=1.0
-Name=draw.io
-GenericName=Drawing Application
-Comment=We love diagrams
+#Actions=
+Categories=Graphics;
+Comment=diagrams.net desktop
 Exec=docker exec ubuntu-tini-desktop bash -l -c "draw.io %U"
+GenericName=Drawing Application
 Icon=draw.io
+MimeType=application/vnd.jgraph.mxfile;application/vnd.visio
+Name=draw.io
+#StartupNotify=
+StartupWMClass=draw.io
 Terminal=false
 Type=Application
-Categories=Utility;
-MimeType=text/plain;inode/directory;
-Keywords=draw.io;
+Version=1.0

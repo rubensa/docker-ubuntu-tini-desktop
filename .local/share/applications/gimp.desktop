@@ -1,15 +1,16 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Version=1.0
-Type=Application
-Name=GNU Image Manipulation Program
-GenericName=Image Editor
-Comment=Create images and edit photographs
-Keywords=GIMP;graphic;design;illustration;painting;
-Exec=docker exec ubuntu-tini-desktop bash -l -c "gimp %U"
-Icon=gimp
-Terminal=false
+#Actions=
 Categories=Graphics;2DGraphics;RasterGraphics;GTK;
-StartupNotify=true
+Comment=Create images and edit photographs
+Exec=docker exec ubuntu-tini-desktop bash -l -c "gimp %U"
+GenericName=Image Editor
+Icon=gimp
 MimeType=image/bmp;image/g3fax;image/gif;image/x-fits;image/x-pcx;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-psd;image/x-sgi;image/x-tga;image/x-xbitmap;image/x-xwindowdump;image/x-xcf;image/x-compressed-xcf;image/x-gimp-gbr;image/x-gimp-pat;image/x-gimp-gih;image/tiff;image/jpeg;image/x-psp;application/postscript;image/png;image/x-icon;image/x-xpixmap;image/svg+xml;application/pdf;image/x-wmf;image/x-xcursor;
+Name=GNU Image Manipulation Program
+StartupNotify=true
+#StartupWMClass=
+Terminal=false
+Type=Application
+Version=1.0

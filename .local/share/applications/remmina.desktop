@@ -1,35 +1,34 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Version=1.0
-Name=Remmina
-GenericName=Remote Desktop Client
-X-GNOME-FullName=Remmina Remote Desktop Client
+Actions=Kiosk;Profile;Tray;Quit;
+Categories=GTK;GNOME;X-GNOME-NetworkSettings;Network;
 Comment=Connect to remote desktops
 Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina %U"
+GenericName=Remote Desktop Client
 Icon=remmina
+MimeType=x-scheme-handler/rdp;x-scheme-handler/spice;x-scheme-handler/vnc;x-scheme-handler/remmina;application/x-remmina;
+Name=Remmina
+#StartupNotify=
+StartupWMClass=remmina
 Terminal=false
 Type=Application
-Categories=GTK;GNOME;X-GNOME-NetworkSettings;Network;
-Keywords=remote desktop;rdp;vnc;nx;ssh;spice;xdmcp;
-StartupWMClass=remmina
-MimeType=x-scheme-handler/rdp;x-scheme-handler/spice;x-scheme-handler/vnc;x-scheme-handler/remmina;application/x-remmina;
-Actions=Kiosk;Profile;Tray;Quit;
+Version=1.0
 
 [Desktop Action Profile]
-Name=Create a New Connection Profile
 Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --new#
+Name=Create a New Connection Profile
 
 [Desktop Action Kiosk]
 # Start Remmina with a minimal interface for kiosk/thin client mode
-Name=Start Remmina in Kiosk mode
 Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --kiosk"
+Name=Start Remmina in Kiosk mode
 
 [Desktop Action Tray]
-Name=Start Remmina Minimized
 Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --icon"
+Name=Start Remmina Minimized
 
 [Desktop Action Quit]
-Name=Quit
 Exec=docker exec ubuntu-tini-desktop bash -l -c "remmina --quit"
+Name=Quit
 OnlyShowIn=Unity;

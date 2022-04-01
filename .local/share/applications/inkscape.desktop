@@ -1,21 +1,20 @@
-# SPDX-License-Identifier: GPL-2.0-or-later
+#!/usr/bin/env xdg-open
+
 [Desktop Entry]
-Version=1.0
-Name=Inkscape
-GenericName=Vector Graphics Editor
-X-GNOME-FullName=Inkscape Vector Graphics Editor
-Comment=Create and edit Scalable Vector Graphics images
-Keywords=image;editor;vector;drawing;
-Type=Application
+#Actions=
 Categories=Graphics;VectorGraphics;GTK;
-MimeType=image/svg+xml;image/svg+xml-compressed;application/vnd.corel-draw;application/pdf;application/postscript;image/x-eps;application/illustrator;
+Comment=Create and edit Scalable Vector Graphics images
 Exec=docker exec ubuntu-tini-desktop bash -l -c "inkscape %F"
-Terminal=false
-StartupNotify=true
+GenericName=Vector Graphics Editor
+MimeType=image/svg+xml;image/svg+xml-compressed;application/vnd.corel-draw;application/pdf;application/postscript;image/x-eps;application/illustrator;
 Icon=inkscape
-X-Ayatana-Desktop-Shortcuts=Drawing
+Name=Inkscape
+StartupNotify=true
+#StartupWMClass=
+Terminal=false
+Type=Application
+Version=1.0
 
 [X-Drawing Shortcut Group]
-Name=New Drawing
 Exec=docker exec ubuntu-tini-desktop bash -l -c "inkscape"
-TargetEnvironment=Unity
+Name=New Drawing

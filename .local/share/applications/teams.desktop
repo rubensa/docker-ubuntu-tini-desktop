@@ -1,15 +1,16 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Version=1.0
-Type=Application
-Name=Microsoft Teams - Preview
+#Actions=
+Categories=AudioVideo;Network;
 Comment=Microsoft Teams for Linux is your chat-centered workspace in Office 365.
 Exec=docker exec ubuntu-tini-desktop bash -i -c "/usr/bin/teams %U"
+#GenericName=
 Icon=teams
-Terminal=false
+MimeType=x-scheme-handler/teams;
+Name=Microsoft Teams - Preview
 StartupNotify=true
 StartupWMClass=Microsoft Teams - Preview
-Categories=AudioVideo;Network;
-MimeType=x-scheme-handler/teams;
-X-KDE-Protocols=teams
+Terminal=false
+Type=Application
+Version=1.0

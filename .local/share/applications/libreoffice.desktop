@@ -1,45 +1,40 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Version=1.0
-Terminal=false
-NoDisplay=false
-Icon=libreoffice
-Type=Application
+Actions=Writer;Calc;Impress;Draw;Base;Math;
 Categories=Office;X-Red-Hat-Base;X-SuSE-Core-Office;X-MandrivaLinux-Office-Other;
+Comment=The office productivity suite compatible to the open and standardized ODF document format. Supported by The Document Foundation.
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice %U"
+GenericName=Office
+Icon=libreoffice
 MimeType=application/vnd.openofficeorg.extension;x-scheme-handler/vnd.libreoffice.cmis;
 Name=Libre Office
-GenericName=Office
-Comment=The office productivity suite compatible to the open and standardized ODF document format. Supported by The Document Foundation.
 StartupNotify=true
-X-GIO-NoFuse=true
 StartupWMClass=libreoffice-startcenter
-X-KDE-Protocols=file,http,ftp,webdav,webdavs
+Terminal=false
+Type=Application
+Version=1.0
 
-##Define Actions
-Actions=Writer;Calc;Impress;Draw;Base;Math;
 [Desktop Action Writer]
-Name=Writer
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice --writer"
+Name=Writer
 
 [Desktop Action Calc]
-Name=Calc
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice --calc"
+Name=Calc
 
 [Desktop Action Impress]
-Name=Impress
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice --impress"
+Name=Impress
 
 [Desktop Action Draw]
-Name=Draw
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice --draw"
+Name=Draw
 
 [Desktop Action Base]
-Name=Base
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice --base"
+Name=Base
 
 [Desktop Action Math]
-Name=Math
 Exec=docker exec ubuntu-tini-desktop bash -l -c "libreoffice --math"
-##End of actions menu
+Name=Math

@@ -1,15 +1,16 @@
 #!/usr/bin/env xdg-open
 
 [Desktop Entry]
-Name=Zoom
+#Actions=
+Categories=Network;Application;
 Comment=Zoom Video Conference
 Exec=docker exec ubuntu-tini-desktop bash -i -c "/usr/bin/zoom %U"
-Icon=zoom.png
+#GenericName=
+Icon=zoom
+MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;application/x-zoom
+Name=Zoom
+#StartupNotify=true
+StartupWMClass=Zoom
 Terminal=false
 Type=Application
-Encoding=UTF-8
-Categories=Network;Application;
-StartupWMClass=Zoom
-MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;application/x-zoom
-X-KDE-Protocols=zoommtg;zoomus;tel;callto;zoomphonecall;
-Name[en_US]=Zoom
+Version=1.0
