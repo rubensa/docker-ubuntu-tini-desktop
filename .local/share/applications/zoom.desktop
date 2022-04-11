@@ -4,10 +4,10 @@
 #Actions=
 Categories=Network;Application;
 Comment=Zoom Video Conference
-Exec=docker exec ubuntu-tini-desktop bash -i -c "/usr/bin/zoom %U"
+Exec=docker exec ubuntu-tini-desktop bash -l -c "zoom %U"
 #GenericName=
 Icon=zoom
-MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;application/x-zoom
+MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;application/x-zoom;
 Name=Zoom
 #StartupNotify=true
 StartupWMClass=Zoom
