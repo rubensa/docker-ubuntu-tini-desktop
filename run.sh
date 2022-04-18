@@ -16,6 +16,13 @@ prepare_docker_user_and_group() {
   RUNNER+=" --user=${USER_ID}:${GROUP_ID}"
 }
 
+prepare_docker_from_docker() {
+  # Docker
+  if [ -S /var/run/docker.sock ]; then
+    MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker-host.sock"
+  fi
+}
+
 prepare_docker_dbus_host_sharing() {
   # To access DBus you ned to start a container without an AppArmor profile
   SECURITY+=" --security-opt apparmor:unconfined"
@@ -124,22 +131,6 @@ prepare_docker_shared_memory_size() {
   EXTRA+=" --shm-size=2g"
 }
 
-prepare_docker_in_docker() {
-  # Docker
-  if [ -S /var/run/docker.sock ]; then
-    MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
-  fi
-  if [ -f "`command -v docker`" ]; then
-    MOUNTS+=" --mount type=bind,source=`command -v docker`,target=/home/${USER_NAME}/.local/bin/docker"
-  fi
-  if [ -f "`command -v docker-compose`" ]; then
-    MOUNTS+=" --mount type=bind,source=`command -v docker-compose`,target=/home/${USER_NAME}/.local/bin/docker-compose"
-  fi
-  if [ ! -z "`getent group docker`" ]; then
-    RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
-  fi
-}
-
 prepare_docker_userdata_volumes() {
   # User media folders
   MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents"
@@ -193,6 +184,7 @@ prepare_docker_userdata_volumes() {
 
 prepare_docker_timezone
 prepare_docker_user_and_group
+prepare_docker_from_docker
 prepare_docker_dbus_host_sharing
 prepare_docker_xdg_runtime_dir_host_sharing
 prepare_docker_sound_host_sharing
@@ -205,7 +197,6 @@ prepare_docker_hostname_host_sharing
 prepare_docker_nvidia_drivers_install
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_size
-prepare_docker_in_docker
 prepare_docker_userdata_volumes
 
 bash -c "docker run --rm -it \

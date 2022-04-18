@@ -38,6 +38,13 @@ prepare_docker_user_and_group() {
   RUNNER+=" --user=${USER_ID}:${GROUP_ID}"
 }
 
+prepare_docker_from_docker() {
+  # Docker
+  if [ -S /var/run/docker.sock ]; then
+    MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker-host.sock"
+  fi
+}
+
 prepare_docker_dbus_host_sharing() {
   # To access DBus you ned to start a container without an AppArmor profile
   SECURITY+=" --security-opt apparmor:unconfined"
@@ -146,22 +153,6 @@ prepare_docker_shared_memory_size() {
   EXTRA+=" --shm-size=2g"
 }
 
-prepare_docker_in_docker() {
-  # Docker
-  if [ -S /var/run/docker.sock ]; then
-    MOUNTS+=" --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
-  fi
-  if [ -f "`command -v docker`" ]; then
-    MOUNTS+=" --mount type=bind,source=`command -v docker`,target=/home/${USER_NAME}/.local/bin/docker"
-  fi
-  if [ -f "`command -v docker-compose`" ]; then
-    MOUNTS+=" --mount type=bind,source=`command -v docker-compose`,target=/home/${USER_NAME}/.local/bin/docker-compose"
-  fi
-  if [ ! -z "`getent group docker`" ]; then
-    RUNNER_GROUPS+=" --group-add `cut -d: -f3 < <(getent group docker)`"
-  fi
-}
-
 prepare_docker_userdata_volumes() {
   # User media folders
   MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents"
@@ -204,6 +195,9 @@ prepare_docker_userdata_volumes() {
   # Zoom
   [ -d ${HOME}/.zoom ] || mkdir -p ${HOME}/.zoom
   MOUNTS+=" --mount type=bind,source=${HOME}/.zoom,target=/home/${USER_NAME}/.zoom"
+  # Slack
+  [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"
@@ -212,6 +206,7 @@ prepare_docker_userdata_volumes() {
 
 prepare_docker_timezone
 prepare_docker_user_and_group
+prepare_docker_from_docker
 prepare_docker_dbus_host_sharing
 prepare_docker_xdg_runtime_dir_host_sharing
 prepare_docker_sound_host_sharing
@@ -224,7 +219,6 @@ prepare_docker_hostname_host_sharing
 prepare_docker_nvidia_drivers_install
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_size
-prepare_docker_in_docker
 prepare_docker_userdata_volumes
 
 bash -c "docker run --rm -it \
@@ -240,7 +234,7 @@ bash -c "docker run --rm -it \
   rubensa/ubuntu-tini-desktop"
 ```
 
-*NOTE*: Mounting /etc/timezone and /etc/localtime allows you to use your host timezone on container.
+*NOTE*: Mounting /var/run/docker.sock allows host docker usage inside the container (docker-from-docker).
 
 This way, the internal user UID an group GID are changed to the current host user:group launching the container and the existing files under his internal HOME directory that where owned by user and group are also updated to belong to the new UID:GID.
 
