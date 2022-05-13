@@ -39,7 +39,7 @@ RUN echo "# Installing deluge..." \
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libnss3 libcanberra-gtk3-module 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=16.5.1
+ARG DRAWIO_VERSION=18.0.1
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -62,8 +62,8 @@ RUN chmod +rx /usr/local/bin/gimp
 
 # Install Appimage and inkscape dependencies
 RUN apt-get -y install --no-install-recommends fuse libcanberra-gtk3-module 2>&1
-# Inkscape Appimage GitLab build job ID (INKSCAPE_1_1_1 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=1610450970
+# Inkscape Appimage GitLab build job ID (INKSCAPE_1_1_2 https://gitlab.com/inkscape/inkscape/-/tags)
+ARG INKSCAPE_JOBID=2057537982
 # Add Inkscape
 RUN echo "# Installing inkscape..."
 ADD https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download /tmp/Inkscape.zip
@@ -113,7 +113,7 @@ RUN echo "# Installing remmina..." \
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/downloads/linux)
-ARG SLACK_VERSION=4.24.0
+ARG SLACK_VERSION=4.25.0
 # Add Slack
 RUN echo "# Installing slack..." \
     && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
@@ -143,9 +143,10 @@ RUN echo "# Installing vlc..." \
     && add-apt-repository -y ppa:videolan/master-daily \
     && apt-get update && apt-get -y install --no-install-recommends vlc 2>&1
 
-# Add Zoom
+# Add Zoom (https://support.zoom.us/hc/en-us/articles/205759689-Release-notes-for-Linux)
+ARG ZOOM_VERSION=5.10.4.2845
 RUN echo "# Installing zoom..." \
-    && curl -o zoom.deb -sSL https://zoom.us/client/latest/zoom_amd64.deb \
+    && curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb \
     && apt-get -y install ./zoom.deb \
     && rm ./zoom.deb
 
