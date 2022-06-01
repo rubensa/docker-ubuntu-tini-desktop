@@ -99,14 +99,14 @@ RUN echo "# Installing meld..." \
     && apt-get -y install --no-install-recommends meld 2>&1
 
 # Install pencil dependencies
-RUN apt-get -y install --no-install-recommends libnss3 libxss1 libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends libnss3 libxss1 libcanberra-gtk3-module wget 2>&1
 # Pencil (https://pencil.evolus.vn/Downloads.html)
 ARG PENCIL_VERSION=3.1.0.ga
 # Add Pencil
 RUN echo "# Installing pencil..." \
     #
     # Pencil Ubuntu 64 DEB Package
-    && curl -o pencil.deb -sSL https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
+    && wget -O pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
     && apt-get -y install ./pencil.deb \
     && rm ./pencil.deb
 
