@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4
-FROM rubensa/ubuntu-tini-x11
+FROM rubensa/ubuntu-tini-x11:22.04
 LABEL author="Ruben Suarez <rubensa@gmail.com>"
 
 # Tell docker that all future commands should be run as root
@@ -34,10 +34,14 @@ apt-get -y install --no-install-recommends google-chrome-stable 2>&1
 EOT
 
 # Install deluge dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common python3-setuptools 2>&1
+RUN apt-get -y install --no-install-recommends software-properties-common 2>&1
 # Add Deluge
 RUN <<EOT
 echo "# Installing deluge..."
+#
+# Add Deluge repo
+add-apt-repository -y ppa:deluge-team/stable
+apt-get update
 apt-get -y install --no-install-recommends deluge 2>&1
 EOT
 
@@ -135,11 +139,6 @@ EOT
 # Add Thunderbird
 RUN <<EOT
 echo "# Installing thunderbird..."
-#
-# Add Thunderbird repo
-add-apt-repository -y ppa:mozillateam/ppa
-printf "Package: thunderbird*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n" >> /etc/apt/preferences.d/mozillateamppa
-apt-get update
 apt-get -y install --no-install-recommends thunderbird 2>&1
 EOT
 
@@ -178,6 +177,10 @@ RUN apt-get -y install --no-install-recommends software-properties-common v4l2lo
 # Add OBS Studio
 RUN <<EOT
 echo "# Installing OBS Studio..."
+#
+# Add OBS Studio repo
+add-apt-repository ppa:obsproject/obs-studio \
+apt-get update
 apt-get -y install --no-install-recommends obs-studio 2>&1
 EOT
 
