@@ -75,12 +75,15 @@ RUN unzip /tmp/Inkscape.zip -d /tmp \
     # Make Appimage executable
     && chmod +rx /usr/local/bin/inkscape
 
+# Install Appimage dependencies
+RUN apt-get -y install --no-install-recommends fuse 2>&1
+# Add Krita (https://krita.org/en/download/krita-desktop/)
+ARG KRITA_VERSION=5.0.6
 # Add Krita
-RUN echo "# Installing krita..." \
-    #
-    # Add VideoLAN repo
-    && add-apt-repository -y ppa:kritalime/ppa \
-    && apt-get update && apt-get -y install --no-install-recommends krita 2>&1
+RUN echo "# Installing krita..."
+ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.appimage /usr/local/bin/krita
+# Make Appimage executable
+RUN chmod +rx /usr/local/bin/krita
 
 # Install libreoffice dependencies
 RUN apt-get -y install --no-install-recommends software-properties-common default-jre 2>&1
