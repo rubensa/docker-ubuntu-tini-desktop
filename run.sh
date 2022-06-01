@@ -176,6 +176,9 @@ prepare_docker_userdata_volumes() {
   # Slack
   [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
+  # Discord
+  [ -d ${HOME}/.config/discord ] || mkdir -p ${HOME}/.config/discord
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/discord,target=/home/${USER_NAME}/.config/discord"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"

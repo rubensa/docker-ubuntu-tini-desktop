@@ -1,0 +1,16 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+#Actions=
+Categories=Network;InstantMessaging;
+Comment=All-in-one voice and text chat for gamers that's free, secure, and works on both your desktop and phone.
+Exec=docker exec ubuntu-tini-desktop bash -l -c "Discord"
+GenericName=Internet Messenger
+Icon=discord
+#MimeType=
+Name=Discord
+#StartupNotify=
+StartupWMClass=discord
+Terminal=false
+Type=Application
+Version=1.0
