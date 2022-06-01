@@ -1,6 +1,6 @@
 # Docker image with some GUI apps
 
-This is a Docker image based on [rubensa/ubuntu-tini-x11](https://github.com/rubensa/docker-ubuntu-tini-x11) and includes some GUI applications.
+This is a Docker image based on [rubensa/ubuntu-tini-x11](https://github.com/rubensa/docker-ubuntu-tini-x11) 22.04 and includes some GUI applications.
 
 ## Building
 
@@ -11,7 +11,7 @@ You can build the image like this:
 
 DOCKER_REPOSITORY_NAME="rubensa"
 DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
-DOCKER_IMAGE_TAG="latest"
+DOCKER_IMAGE_TAG="22.04"
 
 docker build --no-cache \
   -t "${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
@@ -28,7 +28,7 @@ You can run the container like this (change --rm with -d if you don't want the c
 
 DOCKER_REPOSITORY_NAME="rubensa"
 DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
-DOCKER_IMAGE_TAG="latest"
+DOCKER_IMAGE_TAG="22.04"
 
 # Get current user UID
 USER_ID=$(id -u)
