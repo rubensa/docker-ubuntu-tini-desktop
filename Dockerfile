@@ -37,7 +37,7 @@ RUN echo "# Installing deluge..." \
     && apt-get update && apt-get -y install --no-install-recommends deluge 2>&1
 
 # Install Appimage and draw.io dependencies
-RUN apt-get -y install --no-install-recommends fuse libnss3 libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 libcanberra-gtk3-module 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
 ARG DRAWIO_VERSION=18.1.3
 # Add draw.io
@@ -51,7 +51,7 @@ RUN echo "# Installing filezilla..." \
     && apt-get -y install --no-install-recommends filezilla 2>&1
 
 # Install Appimage and GIMP dependencies
-RUN apt-get -y install --no-install-recommends fuse libopenraw7 libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 libopenraw7 libcanberra-gtk3-module 2>&1
 # Add GIMP Appimage (https://github.com/aferrero2707/gimp-appimage/releases)
 ARG GIMP_VERSION=2.10.22
 # Add GIMP
@@ -61,7 +61,7 @@ ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/G
 RUN chmod +rx /usr/local/bin/gimp
 
 # Install Appimage and inkscape dependencies
-RUN apt-get -y install --no-install-recommends fuse libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 libcanberra-gtk3-module 2>&1
 # Inkscape Appimage GitLab build job ID (INKSCAPE_1_2 https://gitlab.com/inkscape/inkscape/-/tags)
 ARG INKSCAPE_JOBID=2457424405
 # Add Inkscape
@@ -76,7 +76,7 @@ RUN unzip /tmp/Inkscape.zip -d /tmp \
     && chmod +rx /usr/local/bin/inkscape
 
 # Install Appimage dependencies
-RUN apt-get -y install --no-install-recommends fuse 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add Krita (https://krita.org/en/download/krita-desktop/)
 ARG KRITA_VERSION=5.0.6
 # Add Krita
@@ -156,7 +156,7 @@ RUN echo "# Installing zoom..." \
 # Add Discord (https://discord.com/download)
 ARG DISCORD_VERSION=0.0.17
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
-RUN echo "# Installing discord..." \
+RUN echo "# Installing Discord..." \
     && tar xvfz /tmp/discord.tar.gz --directory /opt \
     && rm /tmp/discord.tar.gz \
     && ln -s /opt/Discord/Discord /usr/local/bin/Discord
