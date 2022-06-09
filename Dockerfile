@@ -20,15 +20,15 @@ RUN echo "# Installing calibre..." \
 # Install chrome dependencies
 RUN apt-get -y install --no-install-recommends libx11-xcb1 2>&1
 # Add google chrome repo
-RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && printf "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-    #
+RUN mkdir -p /etc/apt/keyrings/ \
+    && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google.gpg  \
+    && printf "deb [signed-by=/etc/apt/keyrings/google.gpg] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
     # Install google chrome
     && echo "# Installing chrome..." \
-    && apt-get update && apt-get -y install --no-install-recommends google-chrome-stable 2>&1
+    && apt-get update && apt-get -y install --no-install-recommends google-chrome-stable 2>&1;
 
 # Install deluge dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends software-properties-common 2>&1
 # Add Deluge
 RUN echo "# Installing deluge..." \
     #
@@ -37,7 +37,7 @@ RUN echo "# Installing deluge..." \
     && apt-get update && apt-get -y install --no-install-recommends deluge 2>&1
 
 # Install Appimage and draw.io dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
 ARG DRAWIO_VERSION=18.1.3
 # Add draw.io
@@ -46,12 +46,13 @@ ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/draw.io
 
+
 # Add filezilla
 RUN echo "# Installing filezilla..." \
     && apt-get -y install --no-install-recommends filezilla 2>&1
 
 # Install Appimage and GIMP dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 libopenraw7 libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 libopenraw7 2>&1
 # Add GIMP Appimage (https://github.com/aferrero2707/gimp-appimage/releases)
 ARG GIMP_VERSION=2.10.22
 # Add GIMP
@@ -61,7 +62,7 @@ ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/G
 RUN chmod +rx /usr/local/bin/gimp
 
 # Install Appimage and inkscape dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 libcanberra-gtk3-module 2>&1
+RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Inkscape Appimage GitLab build job ID (INKSCAPE_1_2 https://gitlab.com/inkscape/inkscape/-/tags)
 ARG INKSCAPE_JOBID=2457424405
 # Add Inkscape
@@ -99,7 +100,7 @@ RUN echo "# Installing meld..." \
     && apt-get -y install --no-install-recommends meld 2>&1
 
 # Install pencil dependencies
-RUN apt-get -y install --no-install-recommends libnss3 libxss1 libcanberra-gtk3-module wget 2>&1
+RUN apt-get -y install --no-install-recommends libnss3 libxss1 wget 2>&1
 # Pencil (https://pencil.evolus.vn/Downloads.html)
 ARG PENCIL_VERSION=3.1.0.ga
 # Add Pencil
@@ -125,13 +126,13 @@ RUN echo "# Installing slack..." \
 
 # Install teams dependencies
 RUN apt-get -y install --no-install-recommends libsecret-1-0 2>&1
-# Add Microsoft Teams
-RUN echo "# Installing teams..." \
-    #
-    # Add Microsoft Teams repo
-    && printf "deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main" >> /etc/apt/sources.list.d/teams.list \
-    && curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && apt-get update && apt-get -y install --no-install-recommends teams 2>&1
+# Add Microsoft Teams repo
+RUN mkdir -p /etc/apt/keyrings/ \
+    && curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg  \
+    && printf "deb [signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/ms-teams stable main" > /etc/apt/sources.list.d/teams.list \
+    # Install Microsoft Teams
+    && echo "# Installing teams..." \
+    && apt-get update && apt-get -y install --no-install-recommends teams 2>&1;
 
 # Add thunderbird
 RUN echo "# Installing thunderbird..." \
