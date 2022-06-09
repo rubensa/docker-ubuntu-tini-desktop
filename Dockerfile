@@ -154,7 +154,7 @@ RUN echo "# Installing zoom..." \
     && rm ./zoom.deb
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.17
+ARG DISCORD_VERSION=0.0.18
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN echo "# Installing Discord..." \
     && tar xvfz /tmp/discord.tar.gz --directory /opt \
