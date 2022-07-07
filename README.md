@@ -236,9 +236,9 @@ bash -c "docker run --rm -it \
 
 *NOTE*: Mounting /var/run/docker.sock allows host docker usage inside the container (docker-from-docker).
 
-This way, the internal user UID an group GID are changed to the current host user:group launching the container and the existing files under his internal HOME directory that where owned by user and group are also updated to belong to the new UID:GID.
+This way, the internal user UID and group GID are changed to the current host user:group launching the container and the existing files under his internal HOME directory that where owned by user and group are also updated to belong to the new UID:GID.
 
-Functions prepare_docker_dbus_host_sharing, prepare_docker_xdg_runtime_dir_host_sharing, prepare_docker_sound_host_sharing, prepare_docker_webcam_host_sharing, prepare_docker_gpu_host_sharing, prepare_docker_printer_host_sharing, prepare_docker_ipc_host_sharing, prepare_docker_x11_host_sharing, prepare_docker_hostname_host_sharing, prepare_docker_fuse_sharing and prepare_docker_shared_memory_size allows sharing your host resources with the running container as GUI apps can interact with your host system as they where installed in the host.
+Functions prepare_docker_dbus_host_sharing, prepare_docker_xdg_runtime_dir_host_sharing, prepare_docker_sound_host_sharing, prepare_docker_webcam_host_sharing, prepare_docker_gpu_host_sharing, prepare_docker_printer_host_sharing, prepare_docker_ipc_host_sharing, prepare_docker_x11_host_sharing, prepare_docker_hostname_host_sharing, prepare_docker_fuse_sharing and prepare_docker_shared_memory_size allows sharing your host resources with the running container as GUI apps can interact with your host system as they were installed in the host.
 
 Function prepare_docker_nvidia_drivers_install allows the nvidia drivers host version to be installed on container.
 
