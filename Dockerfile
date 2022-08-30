@@ -39,7 +39,7 @@ RUN echo "# Installing deluge..." \
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=19.0.3
+ARG DRAWIO_VERSION=20.2.3
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -79,7 +79,7 @@ RUN unzip /tmp/Inkscape.zip -d /tmp \
 # Install Krita dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add Krita (https://krita.org/en/download/krita-desktop/)
-ARG KRITA_VERSION=5.0.6
+ARG KRITA_VERSION=5.1.0
 # Add Krita
 RUN echo "# Installing krita..."
 ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.appimage /usr/local/bin/krita
@@ -148,14 +148,14 @@ RUN echo "# Installing vlc..." \
   && apt-get update && apt-get -y install --no-install-recommends vlc 2>&1
 
 # Add Zoom (https://support.zoom.us/hc/en-us/articles/205759689-Release-notes-for-Linux)
-ARG ZOOM_VERSION=5.11.3.3882
+ARG ZOOM_VERSION=5.11.10.4400
 RUN echo "# Installing zoom..." \
   && curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb \
   && apt-get -y install ./zoom.deb \
   && rm ./zoom.deb
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.18
+ARG DISCORD_VERSION=0.0.19
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN echo "# Installing Discord..." \
   && tar xvfz /tmp/discord.tar.gz --directory /opt \
