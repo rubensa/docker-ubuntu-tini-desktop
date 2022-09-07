@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+DOCKER_REPOSITORY_NAME="rubensa"
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+DOCKER_IMAGE_TAG="latest"
+
 # Get current user UID
 USER_ID=$(id -u)
 # Get current user main GUID
@@ -203,7 +207,7 @@ prepare_docker_shared_memory_size
 prepare_docker_userdata_volumes
 
 bash -c "docker run --rm -it \
-  --name ubuntu-tini-desktop \
+  --name ${DOCKER_IMAGE_NAME} \
   ${SECURITY} \
   ${CAPABILITIES} \
   ${ENV_VARS} \
@@ -212,4 +216,4 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  rubensa/ubuntu-tini-desktop"
+  ${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"

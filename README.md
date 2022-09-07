@@ -9,8 +9,12 @@ You can build the image like this:
 ```
 #!/usr/bin/env bash
 
+DOCKER_REPOSITORY_NAME="rubensa"
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+DOCKER_IMAGE_TAG="latest"
+
 docker build --no-cache \
-  -t "rubensa/ubuntu-tini-desktop" \
+  -t "${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" \
   --label "maintainer=Ruben Suarez <rubensa@gmail.com>" \
   .
 ```
@@ -21,6 +25,10 @@ You can run the container like this (change --rm with -d if you don't want the c
 
 ```
 #!/usr/bin/env bash
+
+DOCKER_REPOSITORY_NAME="rubensa"
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+DOCKER_IMAGE_TAG="latest"
 
 # Get current user UID
 USER_ID=$(id -u)
@@ -198,6 +206,9 @@ prepare_docker_userdata_volumes() {
   # Slack
   [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
+  # Discord
+  [ -d ${HOME}/.config/discord ] || mkdir -p ${HOME}/.config/discord
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/discord,target=/home/${USER_NAME}/.config/discord"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"
@@ -222,7 +233,7 @@ prepare_docker_shared_memory_size
 prepare_docker_userdata_volumes
 
 bash -c "docker run --rm -it \
-  --name ubuntu-tini-desktop \
+  --name ${DOCKER_IMAGE_NAME} \
   ${SECURITY} \
   ${CAPABILITIES} \
   ${ENV_VARS} \
@@ -231,7 +242,7 @@ bash -c "docker run --rm -it \
   ${EXTRA} \
   ${RUNNER} \
   ${RUNNER_GROUPS} \
-  rubensa/ubuntu-tini-desktop"
+  ${DOCKER_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
 ```
 
 *NOTE*: Mounting /var/run/docker.sock allows host docker usage inside the container (docker-from-docker).
@@ -253,8 +264,10 @@ You can connect to the running container like this:
 ```
 #!/usr/bin/env bash
 
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+
 docker exec -it \
-  ubuntu-tini-desktop \
+  "${DOCKER_IMAGE_NAME}" \
   bash -l
 ```
 
@@ -290,8 +303,10 @@ You can stop the running container like this:
 ```
 #!/usr/bin/env bash
 
-docker stop \
-  ubuntu-tini-desktop
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+
+docker stop  \
+  "${DOCKER_IMAGE_NAME}"
 ```
 
 ## Start
@@ -301,11 +316,13 @@ If you run the container without --rm you can start it again like this:
 ```
 #!/usr/bin/env bash
 
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+
 # IMPORTANT! You MUST run this command before starting the container to update the link
 if [ -f "${XAUTHORITY}" ] && [ "${XAUTHORITY}" != "${HOME}/.Xauthority" ]; then ln -sf "${XAUTHORITY}" "${HOME}/.Xauthority"; fi;
 
 docker start \
-  ubuntu-tini-desktop
+  "${DOCKER_IMAGE_NAME}"
 ```
 
 ## Remove
@@ -315,6 +332,8 @@ If you run the container without --rm you can remove once stopped like this:
 ```
 #!/usr/bin/env bash
 
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+
 docker rm \
-  ubuntu-tini-desktop
+  "${DOCKER_IMAGE_NAME}"
 ```

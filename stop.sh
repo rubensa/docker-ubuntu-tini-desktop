@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-docker stop \
-  ubuntu-tini-desktop
+DOCKER_IMAGE_NAME="ubuntu-tini-desktop"
+
+docker stop  \
+  "${DOCKER_IMAGE_NAME}"
