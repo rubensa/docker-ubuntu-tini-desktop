@@ -145,7 +145,7 @@ RUN echo "# Installing vlc..." \
   #
   # Add VideoLAN repo
   && add-apt-repository -y ppa:videolan/master-daily \
-  && apt-get update && apt-get -y install --no-install-recommends vlc 2>&1
+  && apt-get update && apt-get -y install --no-install-recommends vlc vlc-plugin-access-extra 2>&1
 
 # Add Zoom (https://support.zoom.us/hc/en-us/articles/205759689-Release-notes-for-Linux)
 ARG ZOOM_VERSION=5.11.10.4400
