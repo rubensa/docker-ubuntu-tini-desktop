@@ -183,6 +183,9 @@ prepare_docker_userdata_volumes() {
   # Discord
   [ -d ${HOME}/.config/discord ] || mkdir -p ${HOME}/.config/discord
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/discord,target=/home/${USER_NAME}/.config/discord"
+  # OBS Studio
+  [ -d ${HOME}/.config/obs-studio ] || mkdir -p ${HOME}/.config/obs-studio
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/obs-studio,target=/home/${USER_NAME}/.config/obs-studio"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"
