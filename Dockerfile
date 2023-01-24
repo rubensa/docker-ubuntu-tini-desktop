@@ -39,7 +39,7 @@ RUN echo "# Installing deluge..." \
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=20.6.2
+ARG DRAWIO_VERSION=20.8.10
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -79,7 +79,7 @@ RUN unzip /tmp/Inkscape.zip -d /tmp \
 # Install Krita dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add Krita (https://krita.org/en/download/krita-desktop/)
-ARG KRITA_VERSION=5.1.4
+ARG KRITA_VERSION=5.1.5
 # Add Krita
 RUN echo "# Installing krita..."
 ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.appimage /usr/local/bin/krita
@@ -102,7 +102,7 @@ RUN echo "# Installing meld..." \
 # Install pencil dependencies
 RUN apt-get -y install --no-install-recommends libnss3 libxss1 wget 2>&1
 # Pencil (https://pencil.evolus.vn/Downloads.html)
-ARG PENCIL_VERSION=3.1.0.ga
+ARG PENCIL_VERSION=3.1.1.ga
 # Add Pencil
 RUN echo "# Installing pencil..." \
   #
@@ -148,14 +148,14 @@ RUN echo "# Installing vlc..." \
   && apt-get update && apt-get -y install --no-install-recommends vlc vlc-plugin-access-extra 2>&1
 
 # Add Zoom (https://support.zoom.us/hc/en-us/articles/205759689-Release-notes-for-Linux)
-ARG ZOOM_VERSION=5.13.0.599
+ARG ZOOM_VERSION=5.13.5.431
 RUN echo "# Installing zoom..." \
   && curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb \
   && apt-get -y install ./zoom.deb \
   && rm ./zoom.deb
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.22
+ARG DISCORD_VERSION=0.0.24
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN echo "# Installing Discord..." \
   && tar xvfz /tmp/discord.tar.gz --directory /opt \
