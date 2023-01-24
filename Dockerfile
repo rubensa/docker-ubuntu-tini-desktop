@@ -107,7 +107,7 @@ ARG PENCIL_VERSION=3.1.1.ga
 RUN echo "# Installing pencil..." \
   #
   # Pencil Ubuntu 64 DEB Package
-  && wget -O pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/pencil_${PENCIL_VERSION}_amd64.deb \
+  && wget -O pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/Pencil_${PENCIL_VERSION}_amd64.deb \
   && apt-get -y install ./pencil.deb \
   && rm ./pencil.deb
 
