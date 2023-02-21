@@ -126,16 +126,6 @@ RUN echo "# Installing slack..." \
   && apt-get -y install ./slack-desktop-amd64.deb \
   && rm ./slack-desktop-amd64.deb
 
-# Install teams dependencies
-RUN apt-get -y install --no-install-recommends libsecret-1-0 2>&1
-# Add Microsoft Teams repo
-RUN mkdir -p /etc/apt/keyrings/ \
-  && curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /etc/apt/keyrings/microsoft.gpg  \
-  && printf "deb [signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/ms-teams stable main" > /etc/apt/sources.list.d/teams.list \
-  # Install Microsoft Teams
-  && echo "# Installing teams..." \
-  && apt-get update && apt-get -y install --no-install-recommends teams 2>&1;
-
 # Add thunderbird
 RUN echo "# Installing thunderbird..." \
   && apt-get -y install --no-install-recommends thunderbird 2>&1
