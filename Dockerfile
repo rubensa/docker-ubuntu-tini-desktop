@@ -95,6 +95,8 @@ RUN echo "# Installing libreoffice..." \
   && add-apt-repository -y ppa:libreoffice/ppa \
   && apt-get update && apt-get -y install --no-install-recommends libreoffice libreoffice-java-common 2>&1
 
+# Install meld dependencies
+RUN apt-get -y install --no-install-recommends adwaita-icon-theme-full 2>&1
 # Add meld
 RUN echo "# Installing meld..." \
   && apt-get -y install --no-install-recommends meld 2>&1
