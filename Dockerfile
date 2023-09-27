@@ -52,12 +52,12 @@ RUN echo "# Installing filezilla..." \
   && apt-get -y install --no-install-recommends filezilla 2>&1
 
 # Install Appimage and GIMP dependencies
-RUN apt-get -y install --no-install-recommends fuse libfuse2 libopenraw7 2>&1
-# Add GIMP Appimage (https://github.com/aferrero2707/gimp-appimage/releases)
-ARG GIMP_VERSION=2.10.22
+RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
+# Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
+ARG GIMP_VERSION=2.10.34-3
 # Add GIMP
 RUN echo "# Installing gimp..."
-ADD https://github.com/aferrero2707/gimp-appimage/releases/download/continuous/GIMP_AppImage-release-${GIMP_VERSION}-withplugins-x86_64.AppImage /usr/local/bin/gimp
+ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/gimp
 
