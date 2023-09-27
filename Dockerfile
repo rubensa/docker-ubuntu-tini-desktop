@@ -39,7 +39,7 @@ RUN echo "# Installing deluge..." \
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=21.6.5
+ARG DRAWIO_VERSION=21.8.2
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -119,7 +119,7 @@ RUN echo "# Installing remmina..." \
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.33.84
+ARG SLACK_VERSION=4.34.120
 # Add Slack
 RUN echo "# Installing slack..." \
   && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
@@ -140,14 +140,14 @@ RUN echo "# Installing vlc..." \
   && apt-get update && apt-get -y install --no-install-recommends vlc vlc-plugin-access-extra 2>&1
 
 # Add Zoom (https://support.zoom.us/hc/en-us/articles/205759689-Release-notes-for-Linux)
-ARG ZOOM_VERSION=5.15.5.5603
+ARG ZOOM_VERSION=5.16.1.8561
 RUN echo "# Installing zoom..." \
   && curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb \
   && apt-get -y install ./zoom.deb \
   && rm ./zoom.deb
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.28
+ARG DISCORD_VERSION=0.0.30
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN echo "# Installing Discord..." \
   && tar xvfz /tmp/discord.tar.gz --directory /opt \
