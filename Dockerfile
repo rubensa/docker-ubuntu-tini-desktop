@@ -130,14 +130,15 @@ RUN echo "# Installing slack..." \
 RUN echo "# Installing thunderbird..." \
   && apt-get -y install --no-install-recommends thunderbird 2>&1
 
-# Install vlc dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common libavcodec-extra libxcb-xinerama0 2>&1
-# Add VideoLAN
-RUN echo "# Installing vlc..." \
-  #
-  # Add VideoLAN repo
-  && add-apt-repository -y ppa:videolan/master-daily \
-  && apt-get update && apt-get -y install --no-install-recommends vlc vlc-plugin-access-extra 2>&1
+# Install Appimage and VLC dependencies
+RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
+# Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage)
+ARG VLC_VERSION=3.0.18-16
+# Add VLC
+RUN echo "# Installing vlc..."
+ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
+# Make Appimage executable
+RUN chmod +rx /usr/local/bin/vlc
 
 # Add Zoom (https://support.zoom.us/hc/en-us/articles/205759689-Release-notes-for-Linux)
 ARG ZOOM_VERSION=5.16.1.8561
