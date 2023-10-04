@@ -19,4 +19,5 @@ jobs:
       DOCKER_IMAGE_NAME: ubuntu-tini-desktop
       DOCKER_IMAGE_TAG: latest
       DOCKER_IMAGE_PLATFORMS: "linux/amd64"
+      FREE_RUNNER_DISK_SPACE_BEFORE_BUILD: true
     secrets: inherit
