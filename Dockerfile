@@ -101,18 +101,6 @@ RUN apt-get -y install --no-install-recommends adwaita-icon-theme-full 2>&1
 RUN echo "# Installing meld..." \
   && apt-get -y install --no-install-recommends meld 2>&1
 
-# Install pencil dependencies
-RUN apt-get -y install --no-install-recommends libnss3 libxss1 wget 2>&1
-# Pencil (https://pencil.evolus.vn/Downloads.html)
-ARG PENCIL_VERSION=3.1.1.ga
-# Add Pencil
-RUN echo "# Installing pencil..." \
-  #
-  # Pencil Ubuntu 64 DEB Package
-  && wget -O pencil.deb https://pencil.evolus.vn/dl/V${PENCIL_VERSION}/Pencil_${PENCIL_VERSION}_amd64.deb \
-  && apt-get -y install ./pencil.deb \
-  && rm ./pencil.deb
-
 # Add remmina
 RUN echo "# Installing remmina..." \
   && apt-get -y install --no-install-recommends remmina 2>&1
