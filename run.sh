@@ -142,6 +142,10 @@ prepare_docker_userdata_volumes() {
   MOUNTS+=" --mount type=bind,source=$HOME/Music,target=/home/$USER_NAME/Music"
   MOUNTS+=" --mount type=bind,source=$HOME/Pictures,target=/home/$USER_NAME/Pictures"
   MOUNTS+=" --mount type=bind,source=$HOME/Videos,target=/home/$USER_NAME/Videos"
+  # fake .config to allow replace files (vs. file content, so inode change)
+  # in .config folder (ie. zoom)
+  [ -d ${HOME}/.fake-config ] || mkdir -p ${HOME}/.fake-config
+  MOUNTS+=" --mount type=bind,source=${HOME}/.fake-config,target=/home/${USER_NAME}/.config"
   # ssh config
   [ -d ${HOME}/.ssh ] || mkdir -p ${HOME}/.ssh
   MOUNTS+=" --mount type=bind,source=${HOME}/.ssh,target=/home/${USER_NAME}/.ssh"
@@ -177,8 +181,12 @@ prepare_docker_userdata_volumes() {
   # Zoom
   [ -d ${HOME}/.zoom ] || mkdir -p ${HOME}/.zoom
   MOUNTS+=" --mount type=bind,source=${HOME}/.zoom,target=/home/${USER_NAME}/.zoom"
-  [ -f ${HOME}/.config/zoomus.conf ] || touch ${HOME}/.config/zoomus.conf
-  MOUNTS+=" --mount type=bind,source=${HOME}/.config/zoomus.conf,target=/home/${USER_NAME}/.config/zoomus.conf"
+  # zoom replaces .config files (not only it's content) so binding the config files
+  # does not work, so the fake .config folder is used
+  # [ -f ${HOME}/.config/zoom.conf ] || touch ${HOME}/.config/zoom.conf
+  # MOUNTS+=" --mount type=bind,source=${HOME}/.config/zoom.conf,target=/home/${USER_NAME}/.config/zoom.conf"
+  # [ -f ${HOME}/.config/zoomus.conf ] || touch ${HOME}/.config/zoomus.conf
+  # MOUNTS+=" --mount type=bind,source=${HOME}/.config/zoomus.conf,target=/home/${USER_NAME}/.config/zoomus.conf"
   # Slack
   [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
