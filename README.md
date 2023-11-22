@@ -203,12 +203,17 @@ prepare_docker_userdata_volumes() {
   # Zoom
   [ -d ${HOME}/.zoom ] || mkdir -p ${HOME}/.zoom
   MOUNTS+=" --mount type=bind,source=${HOME}/.zoom,target=/home/${USER_NAME}/.zoom"
+  [ -f ${HOME}/.config/zoomus.conf ] || touch ${HOME}/.config/zoomus.conf
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/zoomus.conf,target=/home/${USER_NAME}/.config/zoomus.conf"
   # Slack
   [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
   # Discord
   [ -d ${HOME}/.config/discord ] || mkdir -p ${HOME}/.config/discord
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/discord,target=/home/${USER_NAME}/.config/discord"
+  # OBS Studio
+  [ -d ${HOME}/.config/obs-studio ] || mkdir -p ${HOME}/.config/obs-studio
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/obs-studio,target=/home/${USER_NAME}/.config/obs-studio"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"

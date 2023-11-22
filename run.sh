@@ -177,6 +177,8 @@ prepare_docker_userdata_volumes() {
   # Zoom
   [ -d ${HOME}/.zoom ] || mkdir -p ${HOME}/.zoom
   MOUNTS+=" --mount type=bind,source=${HOME}/.zoom,target=/home/${USER_NAME}/.zoom"
+  [ -f ${HOME}/.config/zoomus.conf ] || touch ${HOME}/.config/zoomus.conf
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/zoomus.conf,target=/home/${USER_NAME}/.config/zoomus.conf"
   # Slack
   [ -d ${HOME}/.config/Slack ] || mkdir -p ${HOME}/.config/Slack
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/Slack,target=/home/${USER_NAME}/.config/Slack"
