@@ -57,14 +57,14 @@ RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 ARG GIMP_VERSION=2.10.36-1
 # Add GIMP
 RUN echo "# Installing gimp..."
-ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
+ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-archimage2.0-x86_64.AppImage /usr/local/bin/gimp
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/gimp
 
 # Install Appimage and inkscape dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Inkscape Appimage GitLab build job ID (NKSCAPE_1_3_1 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=5557122994
+# Inkscape Appimage GitLab build job ID (NKSCAPE_1_3_2 https://gitlab.com/inkscape/inkscape/-/tags)
+ARG INKSCAPE_JOBID=5616042796
 # Add Inkscape
 RUN echo "# Installing inkscape..."
 ADD https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download /tmp/Inkscape.zip
@@ -107,7 +107,7 @@ RUN echo "# Installing remmina..." \
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.35.126
+ARG SLACK_VERSION=4.35.130
 # Add Slack
 RUN echo "# Installing slack..." \
   && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
@@ -124,7 +124,7 @@ RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 ARG VLC_VERSION=3.0.20-2
 # Add VLC
 RUN echo "# Installing vlc..."
-ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
+ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-archimage2.0-x86_64.AppImage /usr/local/bin/vlc
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/vlc
 
@@ -136,7 +136,7 @@ RUN echo "# Installing zoom..." \
   && rm ./zoom.deb
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.35
+ARG DISCORD_VERSION=0.0.36
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN echo "# Installing Discord..." \
   && tar xvfz /tmp/discord.tar.gz --directory /opt \
