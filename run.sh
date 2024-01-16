@@ -135,6 +135,11 @@ prepare_docker_shared_memory_size() {
   EXTRA+=" --shm-size=2g"
 }
 
+allow_new_user_namespaces() {
+  # To allow new user namespaces
+  SECURITY+=" --security-opt seccomp=unconfined"
+}
+
 prepare_docker_userdata_volumes() {
   # User media folders
   MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents,bind-propagation=shared"
@@ -221,6 +226,7 @@ prepare_docker_nvidia_drivers_install
 prepare_docker_fuse_sharing
 prepare_docker_shared_memory_size
 prepare_docker_userdata_volumes
+allow_new_user_namespaces
 
 bash -c "docker run -it \
   --name ${DOCKER_IMAGE_NAME} \
