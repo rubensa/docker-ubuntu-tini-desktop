@@ -54,7 +54,7 @@ RUN echo "# Installing filezilla..." \
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
-ARG GIMP_VERSION=2.10.36-6-archimage3.4
+ARG GIMP_VERSION=2.10.38-1-archimage3.4
 # Add GIMP
 RUN echo "# Installing gimp..."
 ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
@@ -107,7 +107,7 @@ RUN echo "# Installing remmina..." \
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.37.101
+ARG SLACK_VERSION=4.38.115
 # Add Slack
 RUN echo "# Installing slack..." \
   && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
@@ -121,7 +121,7 @@ RUN echo "# Installing thunderbird..." \
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_VERSION=3.0.20-8-archimage3.4
+ARG VLC_VERSION=3.0.20-9-archimage3.4
 # Add VLC
 RUN echo "# Installing vlc..."
 ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
@@ -136,7 +136,7 @@ RUN echo "# Installing zoom..." \
   && rm ./zoom.deb
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.51
+ARG DISCORD_VERSION=0.0.53
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN echo "# Installing Discord..." \
   && tar xvfz /tmp/discord.tar.gz --directory /opt \
