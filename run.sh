@@ -141,6 +141,8 @@ allow_new_user_namespaces() {
 }
 
 prepare_docker_userdata_volumes() {
+  # User mount points (removable devices)
+  MOUNTS+=" --mount type=bind,source=/media/$USER_NAME,target=/media/$USER_NAME,bind-propagation=rslave"
   # User media folders
   MOUNTS+=" --mount type=bind,source=$HOME/Documents,target=/home/$USER_NAME/Documents,bind-propagation=shared"
   MOUNTS+=" --mount type=bind,source=$HOME/Downloads,target=/home/$USER_NAME/Downloads"
