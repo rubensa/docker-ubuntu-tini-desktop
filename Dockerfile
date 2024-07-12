@@ -43,7 +43,6 @@ ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/draw.io
 
-
 # Add filezilla
 RUN echo "# Installing filezilla..." \
   && apt-get -y install --no-install-recommends filezilla 2>&1
@@ -107,7 +106,7 @@ RUN echo "# Installing remmina..." \
 ARG SLACK_VERSION=4.39.90
 # Add Slack
 RUN echo "# Installing slack..." \
-  && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
+  && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLACK_VERSION}/slack-desktop-${SLACK_VERSION}-amd64.deb \
   && apt-get -y install ./slack-desktop-amd64.deb \
   && rm ./slack-desktop-amd64.deb
 
