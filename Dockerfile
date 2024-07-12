@@ -104,7 +104,7 @@ RUN echo "# Installing remmina..." \
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.39.88
+ARG SLACK_VERSION=4.39.90
 # Add Slack
 RUN echo "# Installing slack..." \
   && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb \
