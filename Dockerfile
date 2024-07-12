@@ -31,10 +31,7 @@ RUN mkdir -p /etc/apt/keyrings/ \
 RUN apt-get -y install --no-install-recommends software-properties-common 2>&1
 # Add Deluge
 RUN echo "# Installing deluge..." \
-  #
-  # Add Deluge repo
-  && add-apt-repository -y ppa:deluge-team/stable \
-  && apt-get update && apt-get -y install --no-install-recommends deluge 2>&1
+  && apt-get -y install --no-install-recommends deluge 2>&1
 
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
