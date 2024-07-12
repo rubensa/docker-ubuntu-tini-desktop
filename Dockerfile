@@ -141,11 +141,9 @@ RUN echo "# Installing Discord..." \
 
 # Install OBS Studio dependencies (and Virtual camera support)
 RUN apt-get -y install --no-install-recommends software-properties-common v4l2loopback-dkms 2>&1
-# Add OBS Studio repo
-RUN add-apt-repository ppa:obsproject/obs-studio \
-  # Install OBS Studio
-  && echo "# Installing OBS Studio..." \
-  && apt-get update && apt-get -y install --no-install-recommends obs-studio 2>&1;
+# Add OBS Studio
+RUN echo "# Installing OBS Studio..." \
+  && apt-get -y install --no-install-recommends obs-studio 2>&1;
 
 # Clean up apt
 RUN apt-get autoremove -y \
