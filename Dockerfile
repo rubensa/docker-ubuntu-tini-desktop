@@ -28,7 +28,7 @@ RUN mkdir -p /etc/apt/keyrings/ \
   && apt-get update && apt-get -y install --no-install-recommends google-chrome-stable 2>&1;
 
 # Install deluge dependencies
-RUN apt-get -y install --no-install-recommends software-properties-common 2>&1
+RUN apt-get -y install --no-install-recommends software-properties-common python3-setuptools 2>&1
 # Add Deluge
 RUN echo "# Installing deluge..." \
   && apt-get -y install --no-install-recommends deluge 2>&1
