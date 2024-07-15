@@ -110,9 +110,13 @@ RUN echo "# Installing slack..." \
   && apt-get -y install ./slack-desktop-amd64.deb \
   && rm ./slack-desktop-amd64.deb
 
-# Add thunderbird
+# Add Thunderbird
 RUN echo "# Installing thunderbird..." \
-  && apt-get -y install --no-install-recommends thunderbird 2>&1
+  #
+  # Add Thunderbird repo
+  && add-apt-repository -y ppa:mozillateam/ppa \
+  && printf "Package: thunderbird*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n" >> /etc/apt/preferences.d/mozillateamppa \
+  && apt-get update && apt-get -y install --no-install-recommends thunderbird 2>&1
 
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
