@@ -50,7 +50,7 @@ RUN echo "# Installing filezilla..." \
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
-ARG GIMP_VERSION=2.10.38-1-archimage3.4.1-1
+ARG GIMP_VERSION=2.10.38-2-archimage3.4.1-1
 # Add GIMP
 RUN echo "# Installing gimp..."
 ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
