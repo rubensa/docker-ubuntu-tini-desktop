@@ -44,7 +44,7 @@ EOT
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=24.7.8
+ARG DRAWIO_VERSION=24.7.17
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -60,7 +60,7 @@ EOT
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
-ARG GIMP_VERSION=2.10.38-2-archimage3.4.1-1
+ARG GIMP_VERSION=2.10.38-4-archimage3.4.1-1
 # Add GIMP
 RUN echo "# Installing gimp..."
 ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
@@ -69,8 +69,8 @@ RUN chmod +rx /usr/local/bin/gimp
 
 # Install Appimage and inkscape dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Inkscape Appimage GitLab build job ID (NKSCAPE_1_3_2 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=5616042796
+# Inkscape Appimage GitLab build job ID (NKSCAPE_1_4 https://gitlab.com/inkscape/inkscape/-/tags)
+ARG INKSCAPE_JOBID=8037145963
 # Add Inkscape
 RUN echo "# Installing inkscape..."
 ADD https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download /tmp/Inkscape.zip
@@ -87,7 +87,7 @@ EOT
 # Install Krita dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add Krita (https://krita.org/en/download/)
-ARG KRITA_VERSION=5.2.3
+ARG KRITA_VERSION=5.2.6
 # Add Krita
 RUN echo "# Installing krita..."
 ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.appimage /usr/local/bin/krita
@@ -145,7 +145,7 @@ EOT
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_VERSION=3.0.21-4-archimage3.4
+ARG VLC_VERSION=3.0.21-6-archimage3.4
 # Add VLC
 RUN echo "# Installing vlc..."
 ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
@@ -153,7 +153,7 @@ ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-med
 RUN chmod +rx /usr/local/bin/vlc
 
 # Add Zoom (https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061222)
-ARG ZOOM_VERSION=6.2.0.1855
+ARG ZOOM_VERSION=6.2.3.2056
 RUN <<EOT
 echo "# Installing zoom..."
 curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb
@@ -162,7 +162,7 @@ rm ./zoom.deb
 EOT
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.68
+ARG DISCORD_VERSION=0.0.71
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN <<EOT
 echo "# Installing Discord..."
