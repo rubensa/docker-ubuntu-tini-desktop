@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 FROM rubensa/ubuntu-tini-x11
 LABEL author="Ruben Suarez <rubensa@gmail.com>"
 
@@ -14,24 +15,31 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 
 # Add calibre
-RUN echo "# Installing calibre..." \
-  && apt-get -y install --no-install-recommends calibre 2>&1
+RUN <<EOT
+echo "# Installing calibre..."
+apt-get -y install --no-install-recommends calibre 2>&1
+EOT
 
 # Install chrome dependencies
 RUN apt-get -y install --no-install-recommends libx11-xcb1 2>&1
 # Add google chrome repo
-RUN mkdir -p /etc/apt/keyrings/ \
-  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google.gpg  \
-  && printf "deb [signed-by=/etc/apt/keyrings/google.gpg] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-  # Install google chrome
-  && echo "# Installing chrome..." \
-  && apt-get update && apt-get -y install --no-install-recommends google-chrome-stable 2>&1;
+RUN <<EOT
+mkdir -p /etc/apt/keyrings/
+curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/keyrings/google.gpg
+printf "deb [signed-by=/etc/apt/keyrings/google.gpg] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+# Install google chrome
+echo "# Installing chrome..."
+apt-get update
+apt-get -y install --no-install-recommends google-chrome-stable 2>&1
+EOT
 
 # Install deluge dependencies
 RUN apt-get -y install --no-install-recommends software-properties-common python3-setuptools 2>&1
 # Add Deluge
-RUN echo "# Installing deluge..." \
-  && apt-get -y install --no-install-recommends deluge 2>&1
+RUN <<EOT
+echo "# Installing deluge..."
+apt-get -y install --no-install-recommends deluge 2>&1
+EOT
 
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
@@ -44,8 +52,10 @@ ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION
 RUN chmod +rx /usr/local/bin/draw.io
 
 # Add filezilla
-RUN echo "# Installing filezilla..." \
-  && apt-get -y install --no-install-recommends filezilla 2>&1
+RUN <<EOT
+echo "# Installing filezilla..."
+apt-get -y install --no-install-recommends filezilla 2>&1
+EOT
 
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
@@ -65,12 +75,14 @@ ARG INKSCAPE_JOBID=5616042796
 RUN echo "# Installing inkscape..."
 ADD https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download /tmp/Inkscape.zip
 # Inkscape Appimage
-RUN unzip /tmp/Inkscape.zip -d /tmp \
-  && find /tmp -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \; \
-  && rm /tmp/Inkscape* \
-  #
-  # Make Appimage executable
-  && chmod +rx /usr/local/bin/inkscape
+RUN <<EOT
+unzip /tmp/Inkscape.zip -d /tmp
+find /tmp -maxdepth 1 -type f -name 'Inkscape*.AppImage' -exec mv {} /usr/local/bin/inkscape \;
+rm /tmp/Inkscape*
+#
+# Make Appimage executable
+chmod +rx /usr/local/bin/inkscape
+EOT
 
 # Install Krita dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
@@ -85,38 +97,50 @@ RUN chmod +rx /usr/local/bin/krita
 # Install libreoffice dependencies
 RUN apt-get -y install --no-install-recommends software-properties-common default-jre 2>&1
 # Add LibreOffice
-RUN echo "# Installing libreoffice..." \
-  #
-  # Add LibreOffice repo
-  && add-apt-repository -y ppa:libreoffice/ppa \
-  && apt-get update && apt-get -y install --no-install-recommends libreoffice libreoffice-java-common 2>&1
+RUN <<EOT
+echo "# Installing libreoffice..."
+#
+# Add LibreOffice repo
+add-apt-repository -y ppa:libreoffice/ppa
+apt-get update
+apt-get -y install --no-install-recommends libreoffice libreoffice-java-common 2>&1
+EOT
 
 # Install meld dependencies
 RUN apt-get -y install --no-install-recommends adwaita-icon-theme-full 2>&1
 # Add meld
-RUN echo "# Installing meld..." \
-  && apt-get -y install --no-install-recommends meld 2>&1
+RUN <<EOT
+echo "# Installing meld..."
+apt-get -y install --no-install-recommends meld 2>&1
+EOT
 
 # Add remmina
-RUN echo "# Installing remmina..." \
-  && apt-get -y install --no-install-recommends remmina 2>&1
+RUN <<EOT
+echo "# Installing remmina..."
+apt-get -y install --no-install-recommends remmina 2>&1
+EOT
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
 ARG SLACK_VERSION=4.40.128
 # Add Slack
-RUN echo "# Installing slack..." \
-  && curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLACK_VERSION}/slack-desktop-${SLACK_VERSION}-amd64.deb \
-  && apt-get -y install ./slack-desktop-amd64.deb \
-  && rm ./slack-desktop-amd64.deb
+RUN <<EOT
+echo "# Installing slack..."
+curl -o slack-desktop-amd64.deb -sSL https://downloads.slack-edge.com/desktop-releases/linux/x64/${SLACK_VERSION}/slack-desktop-${SLACK_VERSION}-amd64.deb
+apt-get -y install ./slack-desktop-amd64.deb
+rm ./slack-desktop-amd64.deb
+EOT
 
 # Add Thunderbird
-RUN echo "# Installing thunderbird..." \
-  #
-  # Add Thunderbird repo
-  && add-apt-repository -y ppa:mozillateam/ppa \
-  && printf "Package: thunderbird*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n" >> /etc/apt/preferences.d/mozillateamppa \
-  && apt-get update && apt-get -y install --no-install-recommends thunderbird 2>&1
+RUN <<EOT
+echo "# Installing thunderbird..."
+#
+# Add Thunderbird repo
+add-apt-repository -y ppa:mozillateam/ppa
+printf "Package: thunderbird*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n" >> /etc/apt/preferences.d/mozillateamppa
+apt-get update
+apt-get -y install --no-install-recommends thunderbird 2>&1
+EOT
 
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
@@ -130,29 +154,37 @@ RUN chmod +rx /usr/local/bin/vlc
 
 # Add Zoom (https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061222)
 ARG ZOOM_VERSION=6.2.0.1855
-RUN echo "# Installing zoom..." \
-  && curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb \
-  && apt-get -y install ./zoom.deb \
-  && rm ./zoom.deb
+RUN <<EOT
+echo "# Installing zoom..."
+curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb
+apt-get -y install ./zoom.deb
+rm ./zoom.deb
+EOT
 
 # Add Discord (https://discord.com/download)
 ARG DISCORD_VERSION=0.0.68
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
-RUN echo "# Installing Discord..." \
-  && tar xvfz /tmp/discord.tar.gz --directory /opt \
-  && rm /tmp/discord.tar.gz \
-  && ln -s /opt/Discord/Discord /usr/local/bin/Discord
+RUN <<EOT
+echo "# Installing Discord..."
+tar xvfz /tmp/discord.tar.gz --directory /opt
+rm /tmp/discord.tar.gz
+ln -s /opt/Discord/Discord /usr/local/bin/Discord
+EOT
 
 # Install OBS Studio dependencies (and Virtual camera support)
 RUN apt-get -y install --no-install-recommends software-properties-common v4l2loopback-dkms 2>&1
 # Add OBS Studio
-RUN echo "# Installing OBS Studio..." \
-  && apt-get -y install --no-install-recommends obs-studio 2>&1;
+RUN <<EOT
+echo "# Installing OBS Studio..."
+apt-get -y install --no-install-recommends obs-studio 2>&1
+EOT
 
 # Clean up apt
-RUN apt-get autoremove -y \
-  && apt-get clean -y \
-  && rm -rf /var/lib/apt/lists/*
+RUN <<EOT
+apt-get autoremove -y
+apt-get clean -y
+rm -rf /var/lib/apt/lists/*
+EOT
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=
