@@ -179,6 +179,16 @@ echo "# Installing OBS Studio..."
 apt-get -y install --no-install-recommends obs-studio 2>&1
 EOT
 
+# Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
+ARG TELEGRAM_VERSION=5.6.3
+ADD https://github.com/telegramdesktop/tdesktop/releases/download/v${TELEGRAM_VERSION}/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
+RUN <<EOT
+echo "# Installing Telegram..."
+tar xvf /tmp/telegram.tar.gz --directory /opt
+rm /tmp/telegram.tar.gz
+ln -s /opt/Telegram/Telegram /usr/local/bin/Telegram
+EOT
+
 # Clean up apt
 RUN <<EOT
 apt-get autoremove -y

@@ -196,6 +196,9 @@ prepare_docker_userdata_volumes() {
   # OBS Studio
   [ -d ${HOME}/.config/obs-studio ] || mkdir -p ${HOME}/.config/obs-studio
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/obs-studio,target=/home/${USER_NAME}/.config/obs-studio"
+  # Telegram Desktop
+  [ -d ${HOME}/.local/share/TelegramDesktop ] || mkdir -p ${HOME}/.local/share/TelegramDesktop
+  MOUNTS+=" --mount type=bind,source=${HOME}/.local/share/TelegramDesktop,target=/home/${USER_NAME}/.local/share/TelegramDesktop"
   # Shared working directory
   if [ -d /work ]; then
     MOUNTS+=" --mount type=bind,source=/work,target=/work"
