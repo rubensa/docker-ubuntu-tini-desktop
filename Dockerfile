@@ -122,7 +122,7 @@ EOT
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.40.128
+ARG SLACK_VERSION=4.40.133
 # Add Slack
 RUN <<EOT
 echo "# Installing slack..."
@@ -162,7 +162,7 @@ rm ./zoom.deb
 EOT
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.71
+ARG DISCORD_VERSION=0.0.72
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN <<EOT
 echo "# Installing Discord..."
