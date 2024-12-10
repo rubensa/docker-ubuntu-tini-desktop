@@ -203,6 +203,9 @@ prepare_docker_userdata_volumes() {
   # OBS Studio
   [ -d ${HOME}/.config/obs-studio ] || mkdir -p ${HOME}/.config/obs-studio
   MOUNTS+=" --mount type=bind,source=${HOME}/.config/obs-studio,target=/home/${USER_NAME}/.config/obs-studio"
+  # VSCode
+  [ -d ${HOME}/.config/Code ] || mkdir -p ${HOME}/.config/Code
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/Code,target=/home/${USER_NAME}/.config/Code"
   # Telegram Desktop
   [ -d ${HOME}/.local/share/TelegramDesktop ] || mkdir -p ${HOME}/.local/share/TelegramDesktop
   MOUNTS+=" --mount type=bind,source=${HOME}/.local/share/TelegramDesktop,target=/home/${USER_NAME}/.local/share/TelegramDesktop"
