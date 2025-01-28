@@ -44,7 +44,7 @@ EOT
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=25.0.2
+ARG DRAWIO_VERSION=26.0.9
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -60,7 +60,7 @@ EOT
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
-ARG GIMP_VERSION=2.10.38-5-archimage3.4.1-1
+ARG GIMP_VERSION=2.10.38-5-archimage4.3
 # Add GIMP
 RUN echo "# Installing gimp..."
 ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
@@ -122,7 +122,7 @@ EOT
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.41.104
+ARG SLACK_VERSION=4.41.105
 # Add Slack
 RUN <<EOT
 echo "# Installing slack..."
@@ -145,7 +145,7 @@ EOT
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_VERSION=3.0.21-9-archimage3.4
+ARG VLC_VERSION=3.0.21-12-archimage4.3
 # Add VLC
 RUN echo "# Installing vlc..."
 ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
@@ -153,7 +153,7 @@ ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-med
 RUN chmod +rx /usr/local/bin/vlc
 
 # Add Zoom (https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061222)
-ARG ZOOM_VERSION=6.2.11.5069
+ARG ZOOM_VERSION=6.3.6.6315
 RUN <<EOT
 echo "# Installing zoom..."
 curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb
@@ -162,7 +162,7 @@ rm ./zoom.deb
 EOT
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.77
+ARG DISCORD_VERSION=0.0.82
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN <<EOT
 echo "# Installing Discord..."
@@ -180,7 +180,7 @@ apt-get -y install --no-install-recommends obs-studio 2>&1
 EOT
 
 # Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
-ARG TELEGRAM_VERSION=5.9.0
+ARG TELEGRAM_VERSION=5.10.7
 ADD https://github.com/telegramdesktop/tdesktop/releases/download/v${TELEGRAM_VERSION}/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
 RUN <<EOT
 echo "# Installing Telegram..."
