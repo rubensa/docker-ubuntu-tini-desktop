@@ -181,7 +181,7 @@ EOT
 
 # Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
 ARG TELEGRAM_VERSION=5.10.7
-ADD https://github.com/telegramdesktop/tdesktop/releases/download/v${TELEGRAM_VERSION}/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
+ADD https://td.telegram.org/tlinux/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
 RUN <<EOT
 echo "# Installing Telegram..."
 tar xvf /tmp/telegram.tar.gz --directory /opt
