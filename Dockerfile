@@ -180,7 +180,7 @@ apt-get -y install --no-install-recommends obs-studio 2>&1
 EOT
 
 # Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
-ARG TELEGRAM_VERSION=5.14.1
+ARG TELEGRAM_VERSION=5.14.0
 ADD https://td.telegram.org/tlinux/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
 RUN <<EOT
 echo "# Installing Telegram..."
