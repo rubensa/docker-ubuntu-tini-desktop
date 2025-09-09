@@ -90,7 +90,7 @@ RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 ARG KRITA_VERSION=5.2.11
 # Add Krita
 RUN echo "# Installing krita..."
-ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.appimage /usr/local/bin/krita
+ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.AppImage /usr/local/bin/krita
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/krita
 
