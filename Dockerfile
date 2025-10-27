@@ -60,10 +60,11 @@ EOT
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
+ARG GIMP_SNAPSHOT_VERSION=20251026-141847
 ARG GIMP_VERSION=3.0.6-2-archimage5.0
 # Add GIMP
 RUN echo "# Installing gimp..."
-ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/continuous-stable/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
+ADD https://github.com/ivan-hc/GIMP-appimage/releases/download/${GIMP_SNAPSHOT_VERSION}/GNU-Image-Manipulation-Program_${GIMP_VERSION}-x86_64.AppImage /usr/local/bin/gimp
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/gimp
 
@@ -145,10 +146,11 @@ EOT
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
+ARG VLC_SNAPSHOT_VERSION=20251025-001155
 ARG VLC_VERSION=3.0.21-30-archimage4.9
 # Add VLC
 RUN echo "# Installing vlc..."
-ADD https://github.com/ivan-hc/VLC-appimage/releases/download/continuous/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
+ADD https://github.com/ivan-hc/VLC-appimage/releases/download/${VLC_SNAPSHOT_VERSION}/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
 # Make Appimage executable
 RUN chmod +rx /usr/local/bin/vlc
 
