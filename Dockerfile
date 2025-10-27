@@ -146,8 +146,8 @@ EOT
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_SNAPSHOT_VERSION=20251025-001155
-ARG VLC_VERSION=3.0.21-30-archimage4.9
+ARG VLC_SNAPSHOT_VERSION=20251027-124309
+ARG VLC_VERSION=3.0.21-30-archimage5.0
 # Add VLC
 RUN echo "# Installing vlc..."
 ADD https://github.com/ivan-hc/VLC-appimage/releases/download/${VLC_SNAPSHOT_VERSION}/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
