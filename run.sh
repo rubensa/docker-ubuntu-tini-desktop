@@ -54,6 +54,9 @@ prepare_docker_sound_host_sharing() {
     ENV_VARS+=" --env=PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native"
   fi
   RUNNER_GROUPS+=" --group-add audio"
+  # Just in case host group ID differs from container group ID
+  # as mounted device group is host group
+  RUNNER_GROUPS+=" --group-add $(cut -d: -f3 < <(getent group audio))"
 }
 
 prepare_docker_webcam_host_sharing() {
@@ -65,6 +68,9 @@ prepare_docker_webcam_host_sharing() {
     fi
   done
   RUNNER_GROUPS+=" --group-add video"
+  # Just in case host group ID differs from container group ID
+  # as mounted device group is host group
+  RUNNER_GROUPS+=" --group-add $(cut -d: -f3 < <(getent group video))"
 }
 
 prepare_docker_gpu_host_sharing() {
@@ -166,7 +172,11 @@ prepare_docker_userdata_volumes() {
   # Shared working directory
   [ -d /work ] && MOUNTS+=" --mount type=bind,source=/work,target=/work"
   # User mount points (removable devices)
-  MOUNTS+=" --mount type=bind,source=/media/$USER_NAME,target=/media/$USER_NAME,bind-propagation=rslave"
+  if [ -d "/media" ]; then # Ubuntu (udisks)
+    MOUNTS+=" --mount type=bind,source=/media,target=/media,bind-propagation=rslave"
+  elif [ -d "/run/media" ]; then # Arch Linux (udisks2)
+    MOUNTS+=" --mount type=bind,source=/run/media,target=/media,bind-propagation=rslave"
+  fi
   # ssh config
   [ -d "${HOME}/.ssh" ] || mkdir -p "${HOME}/.ssh"
   MOUNTS+=" --mount type=bind,source=${HOME}/.ssh,target=/home/${USER_NAME}/.ssh"
@@ -236,7 +246,7 @@ prepare_docker_gpu_host_sharing
 prepare_docker_printer_host_sharing
 prepare_docker_ipc_host_sharing
 prepare_docker_x11_host_sharing
-preepare_docker_wayland_host_sharing
+prepare_docker_wayland_host_sharing
 prepare_docker_hostname_host_sharing
 prepare_docker_nvidia_drivers_install
 prepare_docker_fuse_sharing
