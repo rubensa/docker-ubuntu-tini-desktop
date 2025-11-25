@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=TeraBox
+Exec=docker exec ubuntu-tini-desktop bash -l -c "/opt/TeraBox/terabox --no-sandbox %U"
+Terminal=false
+Type=Application
+Icon=terabox
+StartupWMClass=TeraBox
+Comment=TeraBox
+MimeType=x-scheme-handler/terabox;
+Categories=Network;

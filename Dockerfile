@@ -191,6 +191,15 @@ rm /tmp/telegram.tar.gz
 ln -s /opt/Telegram/Telegram /usr/local/bin/Telegram
 EOT
 
+# Install TeraBox (https://www.terabox.app/)
+ARG TERABOX_VERSION=1.42.2
+ADD https://data.nephobox.com/issue/terabox/Linux/${TERABOX_VERSION}/TeraBox_${TERABOX_VERSION}_amd64.deb /tmp/terabox.deb
+RUN <<EOT
+echo "# Installing TeraBox..."
+apt-get -y install --no-install-recommends /tmp/terabox.deb 2>&1
+rm /tmp/terabox.deb
+EOT
+
 # Clean up apt
 RUN <<EOT
 apt-get autoremove -y

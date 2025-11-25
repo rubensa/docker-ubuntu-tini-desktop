@@ -233,6 +233,9 @@ prepare_docker_userdata_volumes() {
   # Telegram Desktop
   [ -d "${HOME}/.local/share/TelegramDesktop" ] || mkdir -p "${HOME}/.local/share/TelegramDesktop"
   MOUNTS+=" --mount type=bind,source=${HOME}/.local/share/TelegramDesktop,target=/home/${USER_NAME}/.local/share/TelegramDesktop"
+  # TeraBox
+  [ -d "${HOME}/.config/TeraBox" ] || mkdir -p "${HOME}/.config/TeraBox"
+  MOUNTS+=" --mount type=bind,source=${HOME}/.config/TeraBox,target=/home/${USER_NAME}/.config/TeraBox"
 }
 
 prepare_docker_timezone
