@@ -44,7 +44,7 @@ EOT
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=28.2.5
+ARG DRAWIO_VERSION=29.3.0
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -60,7 +60,7 @@ EOT
 # Install Appimage and GIMP dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add GIMP Appimage (https://github.com/ivan-hc/GIMP-appimage/releases)
-ARG GIMP_SNAPSHOT_VERSION=20251026-141847
+ARG GIMP_SNAPSHOT_VERSION=20260111-141519
 ARG GIMP_VERSION=3.0.6-2-archimage5.0
 # Add GIMP
 RUN echo "# Installing gimp..."
@@ -70,8 +70,8 @@ RUN chmod +rx /usr/local/bin/gimp
 
 # Install Appimage and inkscape dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
-# Inkscape Appimage GitLab build job ID (NKSCAPE_1_4_2 https://gitlab.com/inkscape/inkscape/-/tags)
-ARG INKSCAPE_JOBID=9979801341
+# Inkscape Appimage GitLab build job ID (NKSCAPE_1_4_3 https://gitlab.com/inkscape/inkscape/-/tags)
+ARG INKSCAPE_JOBID=12542282172
 # Add Inkscape
 RUN echo "# Installing inkscape..."
 ADD https://gitlab.com/inkscape/inkscape/-/jobs/${INKSCAPE_JOBID}/artifacts/download /tmp/Inkscape.zip
@@ -88,7 +88,7 @@ EOT
 # Install Krita dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add Krita (https://krita.org/en/download/)
-ARG KRITA_VERSION=5.2.13
+ARG KRITA_VERSION=5.2.14
 # Add Krita
 RUN echo "# Installing krita..."
 ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.AppImage /usr/local/bin/krita
@@ -123,7 +123,7 @@ EOT
 
 # NOTE: Slack depends on chrome to be installed
 # Slack (https://slack.com/intl/es-es/release-notes/linux)
-ARG SLACK_VERSION=4.46.104
+ARG SLACK_VERSION=4.47.69
 # Add Slack
 RUN <<EOT
 echo "# Installing slack..."
@@ -146,8 +146,8 @@ EOT
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_SNAPSHOT_VERSION=20251027-124309
-ARG VLC_VERSION=3.0.21-30-archimage5.0
+ARG VLC_SNAPSHOT_VERSION=20260105-162910
+ARG VLC_VERSION=3.0.21-32-archimage5.0
 # Add VLC
 RUN echo "# Installing vlc..."
 ADD https://github.com/ivan-hc/VLC-appimage/releases/download/${VLC_SNAPSHOT_VERSION}/VLC-media-player_${VLC_VERSION}-x86_64.AppImage /usr/local/bin/vlc
@@ -155,7 +155,7 @@ ADD https://github.com/ivan-hc/VLC-appimage/releases/download/${VLC_SNAPSHOT_VER
 RUN chmod +rx /usr/local/bin/vlc
 
 # Add Zoom (https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061222)
-ARG ZOOM_VERSION=6.6.5.5215
+ARG ZOOM_VERSION=6.7.2.6498
 RUN <<EOT
 echo "# Installing zoom..."
 curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb
@@ -164,7 +164,7 @@ rm ./zoom.deb
 EOT
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.112
+ARG DISCORD_VERSION=0.0.119
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN <<EOT
 echo "# Installing Discord..."
@@ -182,7 +182,7 @@ apt-get -y install --no-install-recommends obs-studio 2>&1
 EOT
 
 # Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
-ARG TELEGRAM_VERSION=6.2.4
+ARG TELEGRAM_VERSION=6.4.2
 ADD https://td.telegram.org/tlinux/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
 RUN <<EOT
 echo "# Installing Telegram..."
@@ -192,7 +192,7 @@ ln -s /opt/Telegram/Telegram /usr/local/bin/Telegram
 EOT
 
 # Install TeraBox (https://www.terabox.app/)
-ARG TERABOX_VERSION=1.42.2
+ARG TERABOX_VERSION=1.42.6
 ADD https://data.nephobox.com/issue/terabox/Linux/${TERABOX_VERSION}/TeraBox_${TERABOX_VERSION}_amd64.deb /tmp/terabox.deb
 RUN <<EOT
 echo "# Installing TeraBox..."
