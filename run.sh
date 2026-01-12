@@ -175,7 +175,7 @@ prepare_docker_userdata_volumes() {
   if [ -d "/media" ]; then # Ubuntu (udisks)
     MOUNTS+=" --mount type=bind,source=/media,target=/media,bind-propagation=rslave"
   elif [ -d "/run/media" ]; then # Arch Linux (udisks2)
-    MOUNTS+=" --mount type=bind,source=/run/media,target=/media,bind-propagation=rslave"
+    MOUNTS+=" --mount type=bind,source=/run/media,target=/run/media,bind-propagation=rslave"
   fi
   # ssh config
   [ -d "${HOME}/.ssh" ] || mkdir -p "${HOME}/.ssh"
