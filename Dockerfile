@@ -44,7 +44,7 @@ EOT
 # Install Appimage and draw.io dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 libnss3 2>&1
 # Add draw.io Appimage (https://github.com/jgraph/drawio-desktop/releases)
-ARG DRAWIO_VERSION=29.3.0
+ARG DRAWIO_VERSION=29.5.2
 # Add draw.io
 RUN echo "# Installing draw.io..."
 ADD https://github.com/jgraph/drawio-desktop/releases/download/v${DRAWIO_VERSION}/drawio-x86_64-${DRAWIO_VERSION}.AppImage /usr/local/bin/draw.io
@@ -88,7 +88,7 @@ EOT
 # Install Krita dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add Krita (https://krita.org/en/download/)
-ARG KRITA_VERSION=5.2.14
+ARG KRITA_VERSION=5.2.16
 # Add Krita
 RUN echo "# Installing krita..."
 ADD https://download.kde.org/stable/krita/${KRITA_VERSION}/krita-${KRITA_VERSION}-x86_64.AppImage /usr/local/bin/krita
@@ -146,7 +146,7 @@ EOT
 # Install Appimage and VLC dependencies
 RUN apt-get -y install --no-install-recommends fuse libfuse2 2>&1
 # Add VLC Appimage (https://github.com/ivan-hc/VLC-appimage/releases)
-ARG VLC_SNAPSHOT_VERSION=20260105-162910
+ARG VLC_SNAPSHOT_VERSION=20260223-165824
 ARG VLC_VERSION=3.0.21-32-archimage5.0
 # Add VLC
 RUN echo "# Installing vlc..."
@@ -155,7 +155,7 @@ ADD https://github.com/ivan-hc/VLC-appimage/releases/download/${VLC_SNAPSHOT_VER
 RUN chmod +rx /usr/local/bin/vlc
 
 # Add Zoom (https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061222)
-ARG ZOOM_VERSION=6.7.2.6498
+ARG ZOOM_VERSION=6.7.5.6891
 RUN <<EOT
 echo "# Installing zoom..."
 curl -o zoom.deb -sSL https://zoom.us/client/${ZOOM_VERSION}/zoom_amd64.deb
@@ -164,7 +164,7 @@ rm ./zoom.deb
 EOT
 
 # Add Discord (https://discord.com/download)
-ARG DISCORD_VERSION=0.0.119
+ARG DISCORD_VERSION=0.0.127
 ADD https://dl.discordapp.net/apps/linux/${DISCORD_VERSION}/discord-${DISCORD_VERSION}.tar.gz /tmp/discord.tar.gz
 RUN <<EOT
 echo "# Installing Discord..."
@@ -182,7 +182,7 @@ apt-get -y install --no-install-recommends obs-studio 2>&1
 EOT
 
 # Install Telegram Desktop (https://github.com/telegramdesktop/tdesktop/releases)
-ARG TELEGRAM_VERSION=6.4.2
+ARG TELEGRAM_VERSION=6.6.2
 ADD https://td.telegram.org/tlinux/tsetup.${TELEGRAM_VERSION}.tar.xz /tmp/telegram.tar.gz
 RUN <<EOT
 echo "# Installing Telegram..."
@@ -192,7 +192,7 @@ ln -s /opt/Telegram/Telegram /usr/local/bin/Telegram
 EOT
 
 # Install TeraBox (https://www.terabox.app/)
-ARG TERABOX_VERSION=1.42.6
+ARG TERABOX_VERSION=1.44.0
 ADD https://data.nephobox.com/issue/terabox/Linux/${TERABOX_VERSION}/TeraBox_${TERABOX_VERSION}_amd64.deb /tmp/terabox.deb
 RUN <<EOT
 echo "# Installing TeraBox..."
